@@ -2,7 +2,7 @@ This is an attempt to implement key features of the [Tiny Wings][1] game.
 
 [1]: http://itunes.apple.com/us/app/tiny-wings/id417817520?mt=8
 
-![Tiny Wings Hills](http://twitpic.com/show/full/58lfrk.png)
+![Tiny Wings Hills](http://haqu.net/wip/tiny-wings-1.png)
 
 ## Video demos
 
