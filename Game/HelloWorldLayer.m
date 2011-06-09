@@ -27,6 +27,55 @@
 	return scene;
 }
 
+- (CCSprite*) generateBackground {
+	
+	CGSize textureSize = CGSizeMake(screenW, screenH);
+
+	ccColor3B c = (ccColor3B){140,205,221};
+	
+    CCRenderTexture *rt = [CCRenderTexture renderTextureWithWidth:textureSize.width height:textureSize.height];
+    [rt beginWithClear:(float)c.r/256.0f g:(float)c.g/256.0f b:(float)c.b/256.0f a:1];
+
+	// layer 1: gradient
+
+	float gradientAlpha = 0.2f;
+
+	glDisable(GL_TEXTURE_2D);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	
+    CGPoint vertices[4];
+	ccColor4F colors[4];
+    int nVertices = 0;
+	
+	vertices[nVertices] = CGPointMake(0, 0);
+	colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
+	vertices[nVertices] = CGPointMake(textureSize.width, 0);
+	colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
+	vertices[nVertices] = CGPointMake(0, textureSize.height);
+	colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
+	vertices[nVertices] = CGPointMake(textureSize.width, textureSize.height);
+	colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
+	
+    glVertexPointer(2, GL_FLOAT, 0, vertices);
+	glColorPointer(4, GL_FLOAT, 0, colors);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, (GLsizei)nVertices);
+	
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnable(GL_TEXTURE_2D);	
+
+	// layer 2: noise
+	
+	CCSprite *s = [CCSprite spriteWithFile:@"noise.png"];
+	[s setBlendFunc:(ccBlendFunc){GL_DST_COLOR, GL_ZERO}];
+	s.position = ccp(textureSize.width/2, textureSize.height/2);
+    glColor4f(1,1,1,1);
+	[s visit];
+	
+    [rt end];
+	
+	return [CCSprite spriteWithTexture:rt.sprite.texture];
+}
+
 // on "init" you need to initialize your instance
 - (id) init
 {
@@ -39,8 +88,8 @@
 		screenW = size.width;
 		screenH = size.height;
 		
-		self.background = [CCSprite spriteWithFile:@"background.png"];
-		background_.position = ccp(screenW/2, screenH/2);
+		self.background = [self generateBackground];
+		background_.position = ccp(240,160);
 		[self addChild:background_];		
 
 		self.terrain = [Terrain new];

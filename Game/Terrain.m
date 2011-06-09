@@ -5,6 +5,7 @@
 #import "Terrain.h"
 
 @interface Terrain()
+- (void) generateStripes;
 - (void) generateHills;
 - (void) updateHillVisibleVertices;
 - (void) offsetChanged;
@@ -17,13 +18,10 @@
 - (id) init {
 	if ((self = [super init])) {
 
-		self.stripes = [CCSprite spriteWithFile:@"stripes.png"];
-		ccTexParams tp = {GL_NEAREST, GL_NEAREST, GL_REPEAT, GL_CLAMP_TO_EDGE};
-		[stripes_.texture setTexParameters:&tp];
-		
 		scrolling = NO;
 		offsetX = 0;
-		
+
+		[self generateStripes];
 		[self generateHills];
 
 		[self scheduleUpdate];
@@ -69,21 +67,100 @@
 	}
 }
 
+#define kMaxStripes 20
+
+- (void) generateStripes {
+	
+    int textureSize = 512;
+    int nStripes = 6;
+	ccColor3B c1 = (ccColor3B){86,155,30};
+	ccColor3B c2 = (ccColor3B){123,195,56};
+	float gradientAlpha = 0.5f;
+	
+    CCRenderTexture *rt = [CCRenderTexture renderTextureWithWidth:textureSize height:textureSize];
+    [rt beginWithClear:(float)c1.r/256.0f g:(float)c1.g/256.0f b:(float)c1.b/256.0f a:1];
+    
+	glDisable(GL_TEXTURE_2D);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+	
+	// layer 1: stripes
+	
+    CGPoint vertices[kMaxStripes*6];
+    int nVertices = 0;
+    float x1 = -textureSize;
+    float x2;
+	float y1 = textureSize;
+    float y2 = 0;
+    float dx = textureSize*2 / nStripes;
+    float stripeWidth = dx/2;
+    for (int i=0; i<=nStripes; i++) {
+        x2 = x1 + textureSize;
+        vertices[nVertices++] = CGPointMake(x1, y1);
+        vertices[nVertices++] = CGPointMake(x1+stripeWidth, y1);
+        vertices[nVertices++] = CGPointMake(x2, y2);
+        vertices[nVertices++] = vertices[nVertices-2];
+        vertices[nVertices++] = vertices[nVertices-2];
+        vertices[nVertices++] = CGPointMake(x2+stripeWidth, y2);
+        x1 += dx;
+    }
+	
+    glColor4ub(c2.r, c2.g, c2.b, 255);
+    glVertexPointer(2, GL_FLOAT, 0, vertices);
+    glDrawArrays(GL_TRIANGLES, 0, (GLsizei)nVertices);
+	
+	// layer 2: gradient
+	
+	glEnableClientState(GL_COLOR_ARRAY);
+	
+	ccColor4F colors[4];
+	nVertices = 0;
+	vertices[nVertices] = CGPointMake(0, 0);
+	colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
+	vertices[nVertices] = CGPointMake(textureSize, 0);
+	colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
+	vertices[nVertices] = CGPointMake(0, textureSize);
+	colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
+	vertices[nVertices] = CGPointMake(textureSize, textureSize);
+	colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
+	
+    glVertexPointer(2, GL_FLOAT, 0, vertices);
+	glColorPointer(4, GL_FLOAT, 0, colors);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, (GLsizei)nVertices);
+	
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnable(GL_TEXTURE_2D);	
+
+	// layer 3: noise
+	
+	CCSprite *s = [CCSprite spriteWithFile:@"noise.png"];
+	[s setBlendFunc:(ccBlendFunc){GL_DST_COLOR, GL_ZERO}];
+	s.position = ccp(textureSize/2, textureSize/2);
+    glColor4f(1,1,1,1);
+	[s visit];
+    
+    [rt end];
+	
+	self.stripes = [CCSprite spriteWithTexture:rt.sprite.texture];
+	ccTexParams tp = {GL_NEAREST, GL_NEAREST, GL_REPEAT, GL_CLAMP_TO_EDGE};
+	[stripes_.texture setTexParameters:&tp];
+}
+
 - (void) generateHills {
 	
 	// random key points
-	srand(1);
+	srand(5);
 	nHillKeyPoints = kMaxHillKeyPoints;
 //	nHillKeyPoints = 5;
-	float x = 0, y = 160, dy, ny;
+	float x = 0, y = 120, dy, ny;
 	float sign = -1;
 	float paddingTop = 100;
 	float paddingBottom = 20;
 	for (int i=0; i<nHillKeyPoints; i++) {
 		hillKeyPoints[i] = CGPointMake(x, y);
-		x += random()%40+160;
+		x += rand()%40+160;
 		while(true) {
-			dy = random()%80+40;
+			dy = rand()%80+40;
 			ny = y + dy*sign;
 			if(ny < 320-paddingTop && ny > paddingBottom) break;
 		}

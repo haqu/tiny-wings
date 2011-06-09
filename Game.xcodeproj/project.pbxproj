@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4DA7120913A0E9AD00DD891F /* noise.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DA7120813A0E9AD00DD891F /* noise.png */; };
 		4DFD2EAF139CCCA0001E1480 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DFD2EAE139CCCA0001E1480 /* QuartzCore.framework */; };
 		4DFD2EB1139CCCA0001E1480 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DFD2EB0139CCCA0001E1480 /* OpenGLES.framework */; };
 		4DFD2EB3139CCCA0001E1480 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DFD2EB2139CCCA0001E1480 /* OpenAL.framework */; };
@@ -122,13 +123,13 @@
 		4DFD3012139CCCA6001E1480 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DFD3011139CCCA6001E1480 /* AppDelegate.m */; };
 		4DFD3015139CCCA6001E1480 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DFD3014139CCCA6001E1480 /* RootViewController.m */; };
 		4DFD3018139CCCA6001E1480 /* HelloWorldLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DFD3017139CCCA6001E1480 /* HelloWorldLayer.m */; };
-		4DFE49BF139F33CE00973A5D /* stripes.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DFE49BE139F33CE00973A5D /* stripes.png */; };
 		4DFE49C2139F4FBF00973A5D /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DFE49C1139F4FBF00973A5D /* background.png */; };
 		4DFE49C5139F507200973A5D /* Terrain.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DFE49C4139F507200973A5D /* Terrain.m */; };
 		4DFE49C7139F6A7900973A5D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4DFE49C6139F6A7900973A5D /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4DA7120813A0E9AD00DD891F /* noise.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noise.png; sourceTree = "<group>"; };
 		4DFD2EAA139CCCA0001E1480 /* Game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Game.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DFD2EAE139CCCA0001E1480 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4DFD2EB0139CCCA0001E1480 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -364,7 +365,6 @@
 		4DFD3016139CCCA6001E1480 /* HelloWorldLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelloWorldLayer.h; sourceTree = "<group>"; };
 		4DFD3017139CCCA6001E1480 /* HelloWorldLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelloWorldLayer.m; sourceTree = "<group>"; };
 		4DFD3019139CCCA6001E1480 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
-		4DFE49BE139F33CE00973A5D /* stripes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stripes.png; sourceTree = "<group>"; };
 		4DFE49C1139F4FBF00973A5D /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		4DFE49C3139F507200973A5D /* Terrain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Terrain.h; sourceTree = "<group>"; };
 		4DFE49C4139F507200973A5D /* Terrain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Terrain.m; sourceTree = "<group>"; };
@@ -445,8 +445,8 @@
 		4DFD2EBF139CCCA0001E1480 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4DA7120813A0E9AD00DD891F /* noise.png */,
 				4DFE49C1139F4FBF00973A5D /* background.png */,
-				4DFE49BE139F33CE00973A5D /* stripes.png */,
 				4DFD2EC0139CCCA0001E1480 /* Default.png */,
 				4DFD2EC2139CCCA0001E1480 /* fps_images.png */,
 				4DFD2EC4139CCCA0001E1480 /* Icon-72.png */,
@@ -828,9 +828,9 @@
 				4DFD2ECD139CCCA0001E1480 /* Icon.png in Resources */,
 				4DFD2ECF139CCCA0001E1480 /* Icon@2x.png in Resources */,
 				4DFD2ED2139CCCA1001E1480 /* iTunesArtwork in Resources */,
-				4DFE49BF139F33CE00973A5D /* stripes.png in Resources */,
 				4DFE49C2139F4FBF00973A5D /* background.png in Resources */,
 				4DFE49C7139F6A7900973A5D /* README.md in Resources */,
+				4DA7120913A0E9AD00DD891F /* noise.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
