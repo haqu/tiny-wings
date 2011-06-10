@@ -29,16 +29,16 @@
 
 - (CCSprite*) generateBackground {
 	
-	CGSize textureSize = CGSizeMake(screenW, screenH);
+	int textureSize = 512;
 
 	ccColor3B c = (ccColor3B){140,205,221};
 	
-    CCRenderTexture *rt = [CCRenderTexture renderTextureWithWidth:textureSize.width height:textureSize.height];
+    CCRenderTexture *rt = [CCRenderTexture renderTextureWithWidth:textureSize height:textureSize];
     [rt beginWithClear:(float)c.r/256.0f g:(float)c.g/256.0f b:(float)c.b/256.0f a:1];
 
 	// layer 1: gradient
 
-	float gradientAlpha = 0.2f;
+	float gradientAlpha = 0.5f;
 
 	glDisable(GL_TEXTURE_2D);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -49,11 +49,11 @@
 	
 	vertices[nVertices] = CGPointMake(0, 0);
 	colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
-	vertices[nVertices] = CGPointMake(textureSize.width, 0);
+	vertices[nVertices] = CGPointMake(textureSize, 0);
 	colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
-	vertices[nVertices] = CGPointMake(0, textureSize.height);
+	vertices[nVertices] = CGPointMake(0, textureSize/2);
 	colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
-	vertices[nVertices] = CGPointMake(textureSize.width, textureSize.height);
+	vertices[nVertices] = CGPointMake(textureSize, textureSize/2);
 	colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
 	
     glVertexPointer(2, GL_FLOAT, 0, vertices);
@@ -67,7 +67,7 @@
 	
 	CCSprite *s = [CCSprite spriteWithFile:@"noise.png"];
 	[s setBlendFunc:(ccBlendFunc){GL_DST_COLOR, GL_ZERO}];
-	s.position = ccp(textureSize.width/2, textureSize.height/2);
+	s.position = ccp(textureSize/2, textureSize/2);
     glColor4f(1,1,1,1);
 	[s visit];
 	
@@ -89,13 +89,17 @@
 		screenH = size.height;
 		
 		self.background = [self generateBackground];
-		background_.position = ccp(240,160);
+		background_.position = ccp(screenW/2,screenH/2);
+		ccTexParams tp = {GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT};
+		[background_.texture setTexParameters:&tp];
 		[self addChild:background_];		
-
+		
 		self.terrain = [Terrain new];
 		[self addChild:terrain_];
 
 		self.isTouchEnabled = YES;
+		
+		[self scheduleUpdate];
 	}
 	return self;
 }
@@ -124,6 +128,11 @@
 	[terrain_ toggleScrolling];
 	
 	return YES;
+}
+
+- (void) update:(ccTime)dt {
+	CGSize size = background_.textureRect.size;
+	background_.textureRect = CGRectMake(terrain_.offsetX*0.2f, 0, size.width, size.height);
 }
 
 @end

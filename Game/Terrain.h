@@ -5,23 +5,26 @@
 #import "cocos2d.h"
 
 #define kMaxHillKeyPoints 100
-#define kMaxHillVertices 1000000
-#define kMaxHillVisibleVertices 10000 
+#define kMaxHillVertices 2000
+#define kHillSegmentWidth 3
+#define kMaxBorderVertices 400
 
 @interface Terrain : CCNode {
 	CGPoint hillKeyPoints[kMaxHillKeyPoints];
 	int nHillKeyPoints;
+	int fromKeyPointI;
+	int toKeyPointI;
 	CGPoint hillVertices[kMaxHillVertices];
 	CGPoint hillTexCoords[kMaxHillVertices];
 	int nHillVertices;
-	CGPoint hillVisibleVertices[kMaxHillVisibleVertices];
-	CGPoint hillVisibleTexCoords[kMaxHillVisibleVertices];
-	int nHillVisibleVertices;
+	CGPoint borderVertices[kMaxBorderVertices];
+	int nBorderVertices;
 	CCSprite *stripes_;
 	BOOL scrolling;
 	float offsetX;
 }
 @property (nonatomic, retain) CCSprite *stripes;
+@property (readonly) float offsetX;
 
 - (void) toggleScrolling;
 
