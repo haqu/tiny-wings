@@ -1,6 +1,11 @@
-//
-// Tiny Wings http://github.com/haqu/tiny-wings
-//
+/*
+ *	Tiny Wings remake
+ *	http://github.com/haqu/tiny-wings
+ *
+ *	Created by Sergey Tikhonov http://haqu.net
+ *	Released under the MIT License
+ *
+ */
 
 #import "cocos2d.h"
 
@@ -86,6 +91,7 @@
 	
 	[director setAnimationInterval:1.0/60];
 	[director setDisplayFPS:NO];
+	[director setDepthTest:NO];
 	
 	
 	// make the OpenGLView a child of the view controller

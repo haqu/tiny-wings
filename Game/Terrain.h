@@ -1,12 +1,18 @@
-//
-// Tiny Wings http://github.com/haqu/tiny-wings
-//
-
+/*
+ *	Tiny Wings remake
+ *	http://github.com/haqu/tiny-wings
+ *
+ *	Created by Sergey Tikhonov http://haqu.net
+ *	Released under the MIT License
+ *
+ */
+ 
 #import "cocos2d.h"
+#import "Box2D.h"
 
 #define kMaxHillKeyPoints 100
 #define kMaxHillVertices 2000
-#define kHillSegmentWidth 3
+#define kHillSegmentWidth 10
 #define kMaxBorderVertices 400
 
 @interface Terrain : CCNode {
@@ -21,10 +27,16 @@
 	int nBorderVertices;
 	CCSprite *stripes_;
 	BOOL scrolling;
-	float offsetX;
+	float offsetX_;
+	b2World *world;
+	b2Body *body;
+	int screenW;
 }
 @property (nonatomic, retain) CCSprite *stripes;
-@property (readonly) float offsetX;
+@property (nonatomic, assign) float offsetX;
+
++ (id) terrainWithWorld:(b2World*)w;
+- (id) initWithWorld:(b2World*)w;
 
 - (void) toggleScrolling;
 

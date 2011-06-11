@@ -1,6 +1,11 @@
-//
-// Tiny Wings http://github.com/haqu/tiny-wings
-//
+/*
+ *	Tiny Wings remake
+ *	http://github.com/haqu/tiny-wings
+ *
+ *	Created by Sergey Tikhonov http://haqu.net
+ *	Released under the MIT License
+ *
+ */
 
 #import "Terrain.h"
 
@@ -9,21 +14,31 @@
 @interface Terrain()
 - (void) generateStripes;
 - (void) generateHills;
-- (void) updateHillVertices;
-- (void) offsetChanged;
+- (void) resetHillVertices;
+- (void) resetBox2DBody;
 @end
 
 @implementation Terrain
 
 @synthesize stripes = stripes_;
-@synthesize offsetX;
+@synthesize offsetX = offsetX_;
 
-- (id) init {
++ (id) terrainWithWorld:(b2World*)w {
+	return [[[self alloc] initWithWorld:w] autorelease];
+}
+
+- (id) initWithWorld:(b2World*)w {
 	if ((self = [super init])) {
 
+		world = w;
+		body = NULL;
+		
 		scrolling = NO;
-		offsetX = 0;
+		offsetX_ = 0;
 
+		CGSize size = [[CCDirector sharedDirector] winSize];
+		screenW = size.width;
+		
 		[self generateStripes];
 		[self generateHills];
 
@@ -77,23 +92,6 @@
 }
 
 - (void) update:(ccTime)dt {
-	if(scrolling) {
-		const float acc = 0.05f;
-		const float maxVel = 3.0f;
-		static float vel = 0;
-		if(vel < maxVel) {
-			vel += acc;
-		} else {
-			vel = maxVel;
-		}
-		offsetX += vel;
-		float maxOffsetX = hillKeyPoints[nHillKeyPoints-1].x-480;
-		if(offsetX > maxOffsetX) {
-			offsetX = maxOffsetX;
-			scrolling = NO;
-		}
-		[self offsetChanged];
-	}
 }
 
 #define kMaxStripes 20
@@ -199,19 +197,19 @@
 	fromKeyPointI = 0;
 	toKeyPointI = 0;
 	
-	[self updateHillVertices];
+	[self resetHillVertices];
 }
 
-- (void) updateHillVertices {
+- (void) resetHillVertices {
 
 	static int prevFromKeyPointI = -1;
 	static int prevToKeyPointI = -1;
 	
 	// key points interval for drawing
-	while (hillKeyPoints[fromKeyPointI+1].x < offsetX) {
+	while (hillKeyPoints[fromKeyPointI+1].x < offsetX_) {
 		fromKeyPointI++;
 	}
-	while (hillKeyPoints[toKeyPointI].x < offsetX+480) {
+	while (hillKeyPoints[toKeyPointI].x < offsetX_+screenW) {
 		toKeyPointI++;
 	}
 	
@@ -258,16 +256,52 @@
 		
 		prevFromKeyPointI = fromKeyPointI;
 		prevToKeyPointI = toKeyPointI;
+
+		[self resetBox2DBody];
 	}
 }
 
-- (void) offsetChanged {
-	self.position = CGPointMake(-offsetX, 0);
-	[self updateHillVertices];
+- (void) resetBox2DBody {
+
+	if(body) {
+		world->DestroyBody(body);
+	}
+	
+	b2BodyDef bd;
+	bd.position.Set(0, 0);
+	
+	body = world->CreateBody(&bd);
+	
+	b2PolygonShape shape;
+
+	b2Vec2 p1, p2;
+	for (int i=0; i<nBorderVertices-1; i++) {
+		p1 = b2Vec2(borderVertices[i].x/PTM_RATIO,borderVertices[i].y/PTM_RATIO);
+		p2 = b2Vec2(borderVertices[i+1].x/PTM_RATIO,borderVertices[i+1].y/PTM_RATIO);
+		shape.SetAsEdge(p1, p2);
+		body->CreateFixture(&shape, 0);
+	}
 }
 
 - (void) toggleScrolling {
 	scrolling = !scrolling;
+}
+
+- (void) setOffsetX:(float)newOffsetX {
+
+	float minOffsetX = 0;
+	float maxOffsetX = hillKeyPoints[nHillKeyPoints-1].x-screenW;
+	if (newOffsetX < minOffsetX) {
+		newOffsetX = minOffsetX;
+	}
+	if (newOffsetX > maxOffsetX) {
+		newOffsetX = maxOffsetX;
+	}
+	if (offsetX_ != newOffsetX) {
+		offsetX_ = newOffsetX;
+		self.position = CGPointMake(-offsetX_, 0);
+		[self resetHillVertices];
+	}
 }
 
 @end
