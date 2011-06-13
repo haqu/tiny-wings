@@ -1,30 +1,30 @@
 /*
- *	Tiny Wings remake
- *	http://github.com/haqu/tiny-wings
+ *  Tiny Wings remake
+ *  http://github.com/haqu/tiny-wings
  *
- *	Created by Sergey Tikhonov http://haqu.net
- *	Released under the MIT License
+ *  Created by Sergey Tikhonov http://haqu.net
+ *  Released under the MIT License
  *
  */
 
 #import "cocos2d.h"
-
 #import "AppDelegate.h"
 #import "GameConfig.h"
-#import "HelloWorldLayer.h"
+#import "GameLayer.h"
 #import "RootViewController.h"
 
 @implementation AppDelegate
 
 @synthesize window;
 
-- (void) removeStartupFlicker
-{
-	//
-	// THIS CODE REMOVES THE STARTUP FLICKER
-	//
-	// Uncomment the following code if you Application only supports landscape mode
-	//
+- (void) removeStartupFlicker {
+
+    //
+    // THIS CODE REMOVES THE STARTUP FLICKER
+    //
+    // Uncomment the following code if you Application only supports landscape mode
+    //
+    
 #if GAME_AUTOROTATION == kGameAutorotationUIViewController
 
 //	CC_ENABLE_DEFAULT_GL_STATES();
@@ -39,8 +39,9 @@
 	
 #endif // GAME_AUTOROTATION == kGameAutorotationUIViewController	
 }
-- (void) applicationDidFinishLaunching:(UIApplication*)application
-{
+
+- (void) applicationDidFinishLaunching:(UIApplication*)application {
+    
 	// Init the window
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	
@@ -112,7 +113,7 @@
 	[self removeStartupFlicker];
 	
 	// Run the intro Scene
-	[[CCDirector sharedDirector] runWithScene: [HelloWorldLayer scene]];
+	[[CCDirector sharedDirector] runWithScene: [GameLayer scene]];
 }
 
 

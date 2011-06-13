@@ -23,7 +23,7 @@
 static float32 b2EdgeSeparation(const b2PolygonShape* poly1, const b2Transform& xf1, int32 edge1,
 							  const b2PolygonShape* poly2, const b2Transform& xf2)
 {
-	int32 count1 = poly1->m_vertexCount;
+//	int32 count1 = poly1->m_vertexCount;
 	const b2Vec2* vertices1 = poly1->m_vertices;
 	const b2Vec2* normals1 = poly1->m_normals;
 
@@ -143,7 +143,7 @@ static void b2FindIncidentEdge(b2ClipVertex c[2],
 							 const b2PolygonShape* poly1, const b2Transform& xf1, int32 edge1,
 							 const b2PolygonShape* poly2, const b2Transform& xf2)
 {
-	int32 count1 = poly1->m_vertexCount;
+//	int32 count1 = poly1->m_vertexCount;
 	const b2Vec2* normals1 = poly1->m_normals;
 
 	int32 count2 = poly2->m_vertexCount;
