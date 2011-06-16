@@ -1,5 +1,5 @@
 /*
- *  Tiny Wings remake
+ *  Tiny Wings Remake
  *  http://github.com/haqu/tiny-wings
  *
  *  Created by Sergey Tikhonov http://haqu.net
@@ -17,9 +17,9 @@
     float screenW;
     float screenH;
     b2World *world;
-    CCSprite *background_;
-    Terrain *terrain_;
-    Hero *hero_;
+    CCSprite *_background;
+    Terrain *_terrain;
+    Hero *_hero;
     BOOL tapDown;
 }
 @property (nonatomic, retain) CCSprite *background;

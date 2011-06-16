@@ -1,5 +1,5 @@
 /*
- *  Tiny Wings remake
+ *  Tiny Wings Remake
  *  http://github.com/haqu/tiny-wings
  *
  *  Created by Sergey Tikhonov http://haqu.net
@@ -9,6 +9,10 @@
 
 #import "Hero.h"
 #import "Box2D.h"
+
+@interface Hero()
+- (void) createBox2DBody;
+@end
 
 @implementation Hero
 
@@ -25,44 +29,39 @@
 		world = w;
 		radius = 16.0f;
 		awake = NO;
-		
-        CGSize size = [[CCDirector sharedDirector] winSize];
-//        int screenW = size.width;
-        int screenH = size.height;
-		
-		CGPoint startPosition = ccp(0, screenH/2+radius);
 
-		// create box2d body
-
-		b2BodyDef bd;
-		bd.type = b2_dynamicBody;
-        bd.linearDamping = 0.1f;
-		bd.fixedRotation = true;
-		bd.position.Set(startPosition.x/PTM_RATIO, startPosition.y/PTM_RATIO);
-		body = world->CreateBody(&bd);
-		
-		b2CircleShape shape;
-		shape.m_radius = radius/PTM_RATIO;
-		
-		b2FixtureDef fd;
-		fd.shape = &shape;
-		fd.density = 1.0f;
-		fd.restitution = 0.0f; // bounce
-		fd.friction = 0;
-		
-		body->CreateFixture(&fd);
-	
+		[self createBox2DBody];
         [self updateNodePosition];
 		[self sleep];
 	}
 	return self;
 }
 
-//- (void) draw {
-//	glColor4f(0.25f, 0.25f, 1.0f, 1.0f);
-//	glLineWidth(1);
-//	ccDrawCircle(ccp(0,0), radius, body->GetAngle(), 16, YES);
-//}
+- (void) createBox2DBody {
+
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    int screenH = size.height;
+
+    CGPoint startPosition = ccp(0, screenH/2+radius);
+    
+    b2BodyDef bd;
+    bd.type = b2_dynamicBody;
+    bd.linearDamping = 0.1f;
+    bd.fixedRotation = true;
+    bd.position.Set(startPosition.x/PTM_RATIO, startPosition.y/PTM_RATIO);
+    body = world->CreateBody(&bd);
+    
+    b2CircleShape shape;
+    shape.m_radius = radius/PTM_RATIO;
+    
+    b2FixtureDef fd;
+    fd.shape = &shape;
+    fd.density = 1.0f;
+    fd.restitution = 0; // bounce
+    fd.friction = 0;
+    
+    body->CreateFixture(&fd);
+}
 
 - (void) sleep {
 	awake = NO;

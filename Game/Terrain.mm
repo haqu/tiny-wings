@@ -1,5 +1,5 @@
 /*
- *  Tiny Wings remake
+ *  Tiny Wings Remake
  *  http://github.com/haqu/tiny-wings
  *
  *  Created by Sergey Tikhonov http://haqu.net
@@ -13,15 +13,15 @@
 
 @interface Terrain()
 - (void) generateStripes;
-- (void) generateHills;
+- (void) generateHillKeyPoints;
 - (void) resetHillVertices;
 - (void) resetBox2DBody;
 @end
 
 @implementation Terrain
 
-@synthesize stripes = stripes_;
-@synthesize offsetX = offsetX_;
+@synthesize stripes = _stripes;
+@synthesize offsetX = _offsetX;
 
 + (id) terrainWithWorld:(b2World*)w {
     return [[[self alloc] initWithWorld:w] autorelease];
@@ -38,11 +38,12 @@
         screenW = size.width;
         screenH = size.height;
         
-        scrolling = NO;
-        self.offsetX = 0;
-
+        textureSize = 256;
+        
         [self generateStripes];
-        [self generateHills];
+        [self generateHillKeyPoints];
+
+        self.offsetX = 0;
     }
     return self;
 }
@@ -54,7 +55,7 @@
 
 - (void) draw {
     
-    glBindTexture(GL_TEXTURE_2D, stripes_.texture.name);
+    glBindTexture(GL_TEXTURE_2D, _stripes.texture.name);
 
     glDisableClientState(GL_COLOR_ARRAY);
 
@@ -62,19 +63,6 @@
     glVertexPointer(2, GL_FLOAT, 0, hillVertices);
     glTexCoordPointer(2, GL_FLOAT, 0, hillTexCoords);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, (GLsizei)nHillVertices);
-
-    // draw border
-    
-//    glDisable(GL_TEXTURE_2D);
-//    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-//
-//    glLineWidth(1);
-//    glColor4ub(56, 125, 0, 255);
-//    glVertexPointer(2, GL_FLOAT, 0, borderVertices);
-//    glDrawArrays(GL_LINE_STRIP, 0, (GLsizei)nBorderVertices);
-//
-//    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-//    glEnable(GL_TEXTURE_2D);
 
     glEnableClientState(GL_COLOR_ARRAY);
 
@@ -93,14 +81,45 @@
 #endif
 }
 
+- (ccColor3B) generateDarkColor {
+    const int threshold = 250;
+    int r, g, b;
+    while (true) {
+        r = arc4random()%256;
+        g = arc4random()%256;
+        b = arc4random()%256;
+        if (r+g+b > threshold) break;
+    }
+    return ccc3(r, g, b);
+}
+
+- (ccColor3B) generateLightColorFrom:(ccColor3B)c {
+    const int addon = 30;
+    int r, g, b;
+    r = c.r + addon;
+    g = c.g + addon;
+    b = c.b + addon;
+    if (r > 255) r = 255;
+    if (g > 255) g = 255;
+    if (b > 255) b = 255;
+    return ccc3(r, g, b);
+}
+
 - (void) generateStripes {
-	
-    const int maxStripes = 20;
+
+	// random even number of stripes (2,4,6,etc)
+    const int minStripes = 2;
+    const int maxStripes = 8;
+    int nStripes = arc4random()%(maxStripes-minStripes)+minStripes;
+    if (nStripes%2 != 0) {
+        nStripes++;
+    }
+    NSLog(@"nStripes = %d", nStripes);
     
-    int textureSize = 512;
-    int nStripes = 4;
-    ccColor3B c1 = ccc3(86, 155, 30);
-    ccColor3B c2 = ccc3(123, 195, 56);
+//    ccColor3B c1 = ccc3(86, 155, 30);
+//    ccColor3B c2 = ccc3(123, 195, 56);
+    ccColor3B c1 = [self generateDarkColor];
+    ccColor3B c2 = [self generateLightColorFrom:c1];
     float gradientAlpha = 0.5f;
 
     CCRenderTexture *rt = [CCRenderTexture renderTextureWithWidth:textureSize height:textureSize];
@@ -136,25 +155,18 @@
     glVertexPointer(2, GL_FLOAT, 0, vertices);
     glDrawArrays(GL_TRIANGLES, 0, (GLsizei)nVertices);
 
-    // layer 2: gradient with border
+    // layer 2: gradient
 
     glEnableClientState(GL_COLOR_ARRAY);
 
-    float borderWidth = 8.0f;
-    ccColor3B borderColor = ccc3(86, 155, 30);
-    
-    ccColor4F colors[6];
+    ccColor4F colors[4];
     nVertices = 0;
-    vertices[nVertices] = CGPointMake(0, 0);
-    colors[nVertices++] = ccc4FFromccc3B(borderColor);
-    vertices[nVertices] = CGPointMake(textureSize, 0);
-    colors[nVertices++] = ccc4FFromccc3B(borderColor);
 
-    vertices[nVertices] = CGPointMake(0, borderWidth);
+    vertices[nVertices] = CGPointMake(0, 0);
     colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
-    vertices[nVertices] = CGPointMake(textureSize, borderWidth);
+    vertices[nVertices] = CGPointMake(textureSize, 0);
     colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
-    
+
     vertices[nVertices] = CGPointMake(0, textureSize);
     colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
     vertices[nVertices] = CGPointMake(textureSize, textureSize);
@@ -164,9 +176,31 @@
     glColorPointer(4, GL_FLOAT, 0, colors);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, (GLsizei)nVertices);
 
+    // layer 3: highlight
+
+    float borderWidth = textureSize/8;
+    ccColor4F borderColor = (ccColor4F){1, 1, 1, 0.3f};
+
+    nVertices = 0;
+    
+    vertices[nVertices] = CGPointMake(0, 0);
+    colors[nVertices++] = borderColor;
+    vertices[nVertices] = CGPointMake(textureSize, 0);
+    colors[nVertices++] = borderColor;
+
+    vertices[nVertices] = CGPointMake(0, borderWidth);
+    colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
+    vertices[nVertices] = CGPointMake(textureSize, borderWidth);
+    colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
+    
+    glVertexPointer(2, GL_FLOAT, 0, vertices);
+    glColorPointer(4, GL_FLOAT, 0, colors);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, (GLsizei)nVertices);
+    
     glDisableClientState(GL_COLOR_ARRAY);
     
-    // layer 3: noise
+    // layer 4: noise
 
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glEnable(GL_TEXTURE_2D);	
@@ -174,6 +208,7 @@
     CCSprite *s = [CCSprite spriteWithFile:@"noise.png"];
     [s setBlendFunc:(ccBlendFunc){GL_DST_COLOR, GL_ZERO}];
     s.position = ccp(textureSize/2, textureSize/2);
+    s.scale = (float)textureSize/512.0f;
     glColor4f(1, 1, 1, 1);
     [s visit];
 
@@ -181,39 +216,43 @@
 
     self.stripes = [CCSprite spriteWithTexture:rt.sprite.texture];
     ccTexParams tp = {GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_CLAMP_TO_EDGE};
-    [stripes_.texture setTexParameters:&tp];
+    [_stripes.texture setTexParameters:&tp];
 }
 
-- (void) generateHills {
+- (void) generateHillKeyPoints {
 
-    // random key points
+    nHillKeyPoints = 0;
+    
+    float x, y, dx, dy, ny;
+    
+    x = -screenW/4;
+	y = screenH*3/4;
+    hillKeyPoints[nHillKeyPoints++] = CGPointMake(x, y);
+
+    // right under the starting point
+    x = 0;
+	y = screenH/2;
+    hillKeyPoints[nHillKeyPoints++] = CGPointMake(x, y);
+    
     srand(1);
-    nHillKeyPoints = kMaxHillKeyPoints;
-	float minDX = 160;
-	float minDY = 60;
-    float x = -minDX;
-	float y = screenH/2-minDY;
-	float dy, ny;
-    float sign = 1; // +1 - going up, -1 - going  down
+	int minDX = 160, rangeDX = 80;
+	int minDY = 60,  rangeDY = 60;
+    float sign = -1; // +1 - going up, -1 - going  down
     float paddingTop = 20;
     float paddingBottom = 20;
-    for (int i=0; i<nHillKeyPoints; i++) {
-        hillKeyPoints[i] = CGPointMake(x, y);
-		if (i == 0) {
-			x = 0;
-			y = screenH/2;
-		} else {
-			x += rand()%80+minDX;
-			while(true) {
-				dy = rand()%40+minDY;
-				ny = y + dy*sign;
-				if(ny < 320-paddingTop && ny > paddingBottom) break;
-			}
-			y = ny;
-		}
+    while (nHillKeyPoints < kMaxHillKeyPoints) {
+        dx = rand()%rangeDX+minDX;
+        x += dx;
+        while(true) {
+            dy = rand()%rangeDY+minDY;
+            ny = y + dy*sign;
+            if(ny < screenH-paddingTop && ny > paddingBottom) break;
+        }
+        y = ny;
         sign *= -1;
+        hillKeyPoints[nHillKeyPoints++] = CGPointMake(x, y);
     }
-
+    
     fromKeyPointI = 0;
     toKeyPointI = 0;
 
@@ -226,17 +265,18 @@
     static int prevToKeyPointI = -1;
 
     // key points interval for drawing
-    while (hillKeyPoints[fromKeyPointI+1].x < offsetX_-screenW/8/self.scale) {
+    while (hillKeyPoints[fromKeyPointI+1].x < _offsetX-screenW/8/self.scale) {
         fromKeyPointI++;
     }
-    while (hillKeyPoints[toKeyPointI].x < offsetX_+screenW*7/8/self.scale) {
+    while (hillKeyPoints[toKeyPointI].x < _offsetX+screenW*7/8/self.scale) {
         toKeyPointI++;
     }
     
     if (prevFromKeyPointI != fromKeyPointI || prevToKeyPointI != toKeyPointI) {
         
-        //NSLog(@"from %d: %f, %f",fromKeyPointI,hillKeyPoints[fromKeyPointI].x,hillKeyPoints[fromKeyPointI].y);
-        //NSLog(@"to   %d: %f, %f",toKeyPointI,hillKeyPoints[toKeyPointI].x,hillKeyPoints[toKeyPointI].y);
+//        NSLog(@"building hillVertices array for the visible area");
+//        NSLog(@"fromKeyPointI = %d (x = %f)",fromKeyPointI,hillKeyPoints[fromKeyPointI].x);
+//        NSLog(@"toKeyPointI = %d (x = %f)",toKeyPointI,hillKeyPoints[toKeyPointI].x);
         
         // vertices for visible area
         nHillVertices = 0;
@@ -261,9 +301,9 @@
                 borderVertices[nBorderVertices++] = pt1;
                 for (int k=0; k<vSegments+1; k++) {
                     hillVertices[nHillVertices] = CGPointMake(pt0.x, pt0.y / vSegments * k);
-                    hillTexCoords[nHillVertices++] = CGPointMake(pt0.x/256.0f, 1.0f-(float)(k)/vSegments);
+                    hillTexCoords[nHillVertices++] = CGPointMake(pt0.x/(float)textureSize, 1.0f-(float)(k)/vSegments);
                     hillVertices[nHillVertices] = CGPointMake(pt1.x, pt1.y / vSegments * k);
-                    hillTexCoords[nHillVertices++] = CGPointMake(pt1.x/256.0f, 1.0f-(float)(k)/vSegments);
+                    hillTexCoords[nHillVertices++] = CGPointMake(pt1.x/(float)textureSize, 1.0f-(float)(k)/vSegments);
                 }
                 pt0 = pt1;
             }
@@ -271,8 +311,8 @@
             p0 = p1;
         }
         
-        //NSLog(@"nHillVertices = %d",nHillVertices);
-        //NSLog(@"nBorderVertices = %d",nBorderVertices);
+//        NSLog(@"nHillVertices = %d", nHillVertices);
+//        NSLog(@"nBorderVertices = %d", nBorderVertices);
         
         prevFromKeyPointI = fromKeyPointI;
         prevToKeyPointI = toKeyPointI;
@@ -303,10 +343,6 @@
     }
 }
 
-- (void) toggleScrolling {
-    scrolling = !scrolling;
-}
-
 - (void) setOffsetX:(float)newOffsetX {
 
     float minOffsetX = 0;
@@ -318,10 +354,10 @@
         newOffsetX = maxOffsetX;
     }
     static BOOL firstTime = YES;
-    if (offsetX_ != newOffsetX || firstTime) {
+    if (_offsetX != newOffsetX || firstTime) {
         firstTime = NO;
-        offsetX_ = newOffsetX;
-        self.position = CGPointMake(screenW/8-offsetX_*self.scale, 0);
+        _offsetX = newOffsetX;
+        self.position = CGPointMake(screenW/8-_offsetX*self.scale, 0);
         [self resetHillVertices];
     }
 }

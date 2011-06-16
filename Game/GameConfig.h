@@ -1,5 +1,5 @@
 /*
- *  Tiny Wings remake
+ *  Tiny Wings Remake
  *  http://github.com/haqu/tiny-wings
  *
  *  Created by Sergey Tikhonov http://haqu.net

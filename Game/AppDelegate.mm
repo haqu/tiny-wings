@@ -1,5 +1,5 @@
 /*
- *  Tiny Wings remake
+ *  Tiny Wings Remake
  *  http://github.com/haqu/tiny-wings
  *
  *  Created by Sergey Tikhonov http://haqu.net
@@ -91,7 +91,7 @@
 #endif
 	
 	[director setAnimationInterval:1.0/60];
-	[director setDisplayFPS:NO];
+	[director setDisplayFPS:YES];
 	[director setDepthTest:NO];
 	
 	
