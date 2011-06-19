@@ -9,6 +9,7 @@
 
 #import "cocos2d.h"
 #import "Box2D.h"
+#import "GLES-Render.h"
 
 @class Terrain;
 @class Hero;
@@ -21,6 +22,7 @@
     Terrain *_terrain;
     Hero *_hero;
     BOOL tapDown;
+    GLESDebugDraw *render;
 }
 @property (nonatomic, retain) CCSprite *background;
 @property (nonatomic, retain) Terrain *terrain;

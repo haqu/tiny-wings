@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2006-2009 Erin Catto http://www.gphysics.com
+* Copyright (c) 2011 Erin Catto http://box2d.org
 *
 * This software is provided 'as-is', without any express or implied
 * warranty.  In no event will the authors be held liable for any damages
@@ -16,22 +16,25 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef B2_NULL_CONTACT_H
-#define B2_NULL_CONTACT_H
+#include <Box2D/Common/b2Settings.h>
 
-#include <Box2D/Dynamics/Contacts/b2Contact.h>
-
-class b2NullContact : public b2Contact
+/// Timer for profiling. This has platform specific code and may
+/// not work on every platform.
+class b2Timer
 {
 public:
-	b2NullContact() {}
-	void Evaluate() {}
-	float32 ComputeTOI(const b2Sweep& sweepA, const b2Sweep& sweepB) const
-	{
-		B2_NOT_USED(sweepA);
-		B2_NOT_USED(sweepB);
-		return 1.0f;
-	}
-};
 
-#endif
+	/// Constructor
+	b2Timer();
+
+	/// Reset the timer.
+	void Reset();
+
+	/// Get the time since construction or the last reset.
+	float32 GetMilliseconds() const;
+
+private:
+
+	float64 m_start;
+	static float64 s_invFrequency;
+};

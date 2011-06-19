@@ -12,3 +12,7 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #endif
+
+// Box2D
+#define PTM_RATIO 32 // pixels to metre ratio
+//#define DRAW_BOX2D_WORLD

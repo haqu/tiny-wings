@@ -16,6 +16,7 @@
 
 @implementation Hero
 
+@synthesize sprite = _sprite;
 @synthesize awake;
 
 + (id) heroWithWorld:(b2World*)w {
@@ -24,7 +25,12 @@
 
 - (id) initWithWorld:(b2World*)w {
     
-	if ((self = [super initWithFile:@"hero.png"])) {
+	if ((self = [super init])) {
+
+#ifndef DRAW_BOX2D_WORLD
+        self.sprite = [CCSprite spriteWithFile:@"hero.png"];
+        [self addChild:_sprite];
+#endif
         
 		world = w;
 		radius = 16.0f;
@@ -37,6 +43,15 @@
 	return self;
 }
 
+- (void) dealloc {
+
+#ifndef DRAW_BOX2D_WORLD
+    self.sprite = nil;
+#endif
+
+    [super dealloc];
+}
+
 - (void) createBox2DBody {
 
     CGSize size = [[CCDirector sharedDirector] winSize];
@@ -46,8 +61,8 @@
     
     b2BodyDef bd;
     bd.type = b2_dynamicBody;
-    bd.linearDamping = 0.1f;
-    bd.fixedRotation = true;
+    bd.linearDamping = 0.05f;
+//    bd.fixedRotation = true;
     bd.position.Set(startPosition.x/PTM_RATIO, startPosition.y/PTM_RATIO);
     body = world->CreateBody(&bd);
     
@@ -92,10 +107,22 @@
 }
 
 - (void) updateNodePosition {
-	self.position = ccp(body->GetPosition().x*PTM_RATIO, body->GetPosition().y*PTM_RATIO);
+
+    float x = body->GetPosition().x*PTM_RATIO;
+    float y = body->GetPosition().y*PTM_RATIO;
+    if (y < radius) {
+        y = radius;
+    }
+
+	self.position = ccp(x, y);
     b2Vec2 vel = body->GetLinearVelocity();
     float angle = atan2f(vel.y, vel.x);
+
+#ifdef DRAW_BOX2D_WORLD
+    body->SetTransform(body->GetPosition(), angle);
+#else
     self.rotation = -1 * CC_RADIANS_TO_DEGREES(angle);
+#endif
 }
 
 @end

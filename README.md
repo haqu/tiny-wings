@@ -10,6 +10,7 @@ The code is released under the [MIT License](http://opensource.org/licenses/mit-
 
 ## WIP Videos
 
+- [2011-06-19](http://www.youtube.com/watch?v=EfESDQp53-0)
 - [2011-06-16](http://www.youtube.com/watch?v=wg3Mzns02wM)
 - [2011-06-13](http://www.youtube.com/watch?v=80IJIcoNqnk)
 - [2011-06-11](http://www.youtube.com/watch?v=g4Z0MhPiR68)

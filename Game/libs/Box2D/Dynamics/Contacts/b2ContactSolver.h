@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2006-2009 Erin Catto http://www.gphysics.com
+* Copyright (c) 2006-2009 Erin Catto http://www.box2d.org
 *
 * This software is provided 'as-is', without any express or implied
 * warranty.  In no event will the authors be held liable for any damages
@@ -21,15 +21,15 @@
 
 #include <Box2D/Common/b2Math.h>
 #include <Box2D/Collision/b2Collision.h>
-#include <Box2D/Dynamics/b2Island.h>
+#include <Box2D/Dynamics/b2TimeStep.h>
 
 class b2Contact;
 class b2Body;
 class b2StackAllocator;
+struct b2ContactPositionConstraint;
 
-struct b2ContactConstraintPoint
+struct b2VelocityConstraintPoint
 {
-	b2Vec2 localPoint;
 	b2Vec2 rA;
 	b2Vec2 rB;
 	float32 normalImpulse;
@@ -39,40 +39,58 @@ struct b2ContactConstraintPoint
 	float32 velocityBias;
 };
 
-struct b2ContactConstraint
+struct b2ContactVelocityConstraint
 {
-	b2ContactConstraintPoint points[b2_maxManifoldPoints];
-	b2Vec2 localNormal;
-	b2Vec2 localPoint;
+	b2VelocityConstraintPoint points[b2_maxManifoldPoints];
 	b2Vec2 normal;
 	b2Mat22 normalMass;
 	b2Mat22 K;
-	b2Body* bodyA;
-	b2Body* bodyB;
+	int32 indexA;
+	int32 indexB;
+	float32 invMassA, invMassB;
+	b2Vec2 localCenterA, localCenterB;
+	float32 invIA, invIB;
 	b2Manifold::Type type;
-	float32 radius;
+	float32 radiusA, radiusB;
 	float32 friction;
+	float32 restitution;
 	int32 pointCount;
 	b2Manifold* manifold;
+};
+
+struct b2ContactSolverDef
+{
+	b2TimeStep step;
+	b2Contact** contacts;
+	int32 count;
+	b2Position* positions;
+	b2Velocity* velocities;
+	b2StackAllocator* allocator;
 };
 
 class b2ContactSolver
 {
 public:
-	b2ContactSolver(b2Contact** contacts, int32 contactCount,
-					b2StackAllocator* allocator, float32 impulseRatio);
-
+	b2ContactSolver(b2ContactSolverDef* def);
 	~b2ContactSolver();
+
+	void InitializeVelocityConstraints();
 
 	void WarmStart();
 	void SolveVelocityConstraints();
 	void StoreImpulses();
 
-	bool SolvePositionConstraints(float32 baumgarte);
+	bool SolvePositionConstraints();
+	bool SolveTOIPositionConstraints(int32 toiIndexA, int32 toiIndexB);
 
+	b2TimeStep m_step;
+	b2Position* m_positions;
+	b2Velocity* m_velocities;
 	b2StackAllocator* m_allocator;
-	b2ContactConstraint* m_constraints;
-	int m_constraintCount;
+	b2ContactPositionConstraint* m_positionConstraints;
+	b2ContactVelocityConstraint* m_velocityConstraints;
+	int m_count;
 };
 
 #endif
+

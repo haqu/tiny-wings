@@ -11,12 +11,14 @@
 #import "cocos2d.h"
 #import "Box2D.h"
 
-@interface Hero : CCSprite {
+@interface Hero : CCNode {
+    CCSprite *_sprite;
     b2World *world;
     b2Body *body;
     float radius;
 	BOOL awake;
 }
+@property (nonatomic, retain) CCSprite *sprite;
 @property (readonly) BOOL awake;
 
 + (id) heroWithWorld:(b2World*)w;

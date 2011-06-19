@@ -10,10 +10,10 @@
 #import "cocos2d.h"
 #import "Box2D.h"
 
-#define kMaxHillKeyPoints 1000
-#define kMaxHillVertices 2000
-#define kMaxBorderVertices 400
-#define kHillSegmentWidth 5
+#define kMaxHillKeyPoints 200
+#define kMaxHillVertices 1000
+#define kMaxBorderVertices 5000
+#define kHillSegmentWidth 10
 
 @interface Terrain : CCNode {
     CGPoint hillKeyPoints[kMaxHillKeyPoints];
