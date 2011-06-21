@@ -11,20 +11,21 @@
 #import "Box2D.h"
 #import "GLES-Render.h"
 
+@class Sky;
 @class Terrain;
 @class Hero;
 
 @interface GameLayer : CCLayer {
-    float screenW;
-    float screenH;
+    int screenW;
+    int screenH;
     b2World *world;
-    CCSprite *_background;
+    Sky *_sky;
     Terrain *_terrain;
     Hero *_hero;
     BOOL tapDown;
     GLESDebugDraw *render;
 }
-@property (nonatomic, retain) CCSprite *background;
+@property (nonatomic, retain) Sky *sky;
 @property (nonatomic, retain) Terrain *terrain;
 @property (nonatomic, retain) Hero *hero;
 

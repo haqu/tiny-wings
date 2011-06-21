@@ -33,7 +33,7 @@
 #endif
         
 		world = w;
-		radius = 16.0f;
+		radius = 14.0f;
 		awake = NO;
 
 		[self createBox2DBody];
@@ -62,7 +62,7 @@
     b2BodyDef bd;
     bd.type = b2_dynamicBody;
     bd.linearDamping = 0.05f;
-//    bd.fixedRotation = true;
+    bd.fixedRotation = true;
     bd.position.Set(startPosition.x/PTM_RATIO, startPosition.y/PTM_RATIO);
     body = world->CreateBody(&bd);
     
@@ -110,19 +110,24 @@
 
     float x = body->GetPosition().x*PTM_RATIO;
     float y = body->GetPosition().y*PTM_RATIO;
-    if (y < radius) {
-        y = radius;
-    }
 
 	self.position = ccp(x, y);
     b2Vec2 vel = body->GetLinearVelocity();
     float angle = atan2f(vel.y, vel.x);
 
 #ifdef DRAW_BOX2D_WORLD
+    
     body->SetTransform(body->GetPosition(), angle);
+    
 #else
+    
     self.rotation = -1 * CC_RADIANS_TO_DEGREES(angle);
+    
 #endif
+    
+    if (y < -radius && awake) {
+        [self sleep];
+    }
 }
 
 @end
