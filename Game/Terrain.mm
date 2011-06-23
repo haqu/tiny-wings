@@ -116,7 +116,7 @@
 
 	// random number of stripes (even)
     const int minStripes = 4;
-    const int maxStripes = 20;
+    const int maxStripes = 40;
     int nStripes = arc4random()%(maxStripes-minStripes)+minStripes;
     if (nStripes%2) {
         nStripes++;
@@ -478,6 +478,12 @@
         self.position = ccp(screenW/8-_offsetX*self.scale, 0);
         [self resetHillVertices];
     }
+}
+
+- (void) reset {
+    self.stripes = [self generateStripesSprite];
+    fromKeyPointI = 0;
+    toKeyPointI = 0;
 }
 
 @end

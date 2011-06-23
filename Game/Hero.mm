@@ -94,7 +94,7 @@
 }
 
 - (void) limitVelocity {
-    const float minVelocityX = 2;
+    const float minVelocityX = 3;
     const float minVelocityY = -40;
     b2Vec2 vel = body->GetLinearVelocity();
     if (vel.x < minVelocityX) {
@@ -128,6 +128,12 @@
     if (y < -radius && awake) {
         [self sleep];
     }
+}
+
+- (void) reset {
+    world->DestroyBody(body);
+    [self createBox2DBody];
+    [self sleep];
 }
 
 @end

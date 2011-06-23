@@ -21,6 +21,7 @@
 @synthesize sky = _sky;
 @synthesize terrain = _terrain;
 @synthesize hero = _hero;
+@synthesize resetButton = _resetButton;
 
 + (CCScene*) scene {
     CCScene *scene = [CCScene node];
@@ -51,6 +52,12 @@
         self.hero = [Hero heroWithWorld:world];
         [_terrain addChild:_hero];
 
+        self.resetButton = [CCSprite spriteWithFile:@"resetButton.png"];
+        [self addChild:_resetButton];
+        CGSize size = _resetButton.contentSize;
+        float padding = 8;
+        _resetButton.position = ccp(screenW-size.width/2-padding, screenH-size.height/2-padding);
+        
         self.isTouchEnabled = YES;
         tapDown = NO;
 
@@ -64,6 +71,7 @@
 	self.sky = nil;
 	self.terrain = nil;
     self.hero = nil;
+    self.resetButton = nil;
 
 #ifdef DRAW_BOX2D_WORLD
 
@@ -83,7 +91,22 @@
 }
 
 - (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-    tapDown = YES;
+    CGPoint location = [touch locationInView:[touch view]];
+    location = [[CCDirector sharedDirector] convertToGL:location];
+    
+    CGPoint pos = _resetButton.position;
+    CGSize size = _resetButton.contentSize;
+    float padding = 8;
+    float w = size.width+padding*2;
+    float h = size.height+padding*2;
+    CGRect rect = CGRectMake(pos.x-w/2, pos.y-h/2, w, h);
+    if (CGRectContainsPoint(rect, location)) {
+        [_terrain reset];
+        [_hero reset];
+    } else {
+        tapDown = YES;
+    }
+    
     return YES;
 }
 

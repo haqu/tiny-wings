@@ -30,4 +30,6 @@
 - (void) limitVelocity;
 - (void) updateNodePosition;
 
+- (void) reset;
+
 @end

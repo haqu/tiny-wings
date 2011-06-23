@@ -59,6 +59,7 @@
 		4D8B2D8113B05E6B003BA385 /* Sky.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B2D8013B05E6B003BA385 /* Sky.m */; };
 		4DB4288113A5FAC300250C22 /* hero.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DB4287F13A5FAC300250C22 /* hero.png */; };
 		4DB4288213A5FAC300250C22 /* noise.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DB4288013A5FAC300250C22 /* noise.png */; };
+		4DF5F31013B2292300CC2632 /* resetButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DF5F30F13B2292300CC2632 /* resetButton.png */; };
 		4DFD2EAF139CCCA0001E1480 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DFD2EAE139CCCA0001E1480 /* QuartzCore.framework */; };
 		4DFD2EB1139CCCA0001E1480 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DFD2EB0139CCCA0001E1480 /* OpenGLES.framework */; };
 		4DFD2EB3139CCCA0001E1480 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DFD2EB2139CCCA0001E1480 /* OpenAL.framework */; };
@@ -280,6 +281,7 @@
 		4D8B2D8013B05E6B003BA385 /* Sky.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sky.m; sourceTree = "<group>"; };
 		4DB4287F13A5FAC300250C22 /* hero.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hero.png; path = Resources/hero.png; sourceTree = "<group>"; };
 		4DB4288013A5FAC300250C22 /* noise.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noise.png; path = Resources/noise.png; sourceTree = "<group>"; };
+		4DF5F30F13B2292300CC2632 /* resetButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = resetButton.png; path = Resources/resetButton.png; sourceTree = "<group>"; };
 		4DFD2EAA139CCCA0001E1480 /* TinyWings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TinyWings.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DFD2EAE139CCCA0001E1480 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4DFD2EB0139CCCA0001E1480 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -756,6 +758,7 @@
 		4DFD2EBF139CCCA0001E1480 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4DF5F30F13B2292300CC2632 /* resetButton.png */,
 				4DB4287F13A5FAC300250C22 /* hero.png */,
 				4DB4288013A5FAC300250C22 /* noise.png */,
 				4DFD2EC0139CCCA0001E1480 /* Default.png */,
@@ -1146,6 +1149,7 @@
 				4D4B4C6213A3941300A6341D /* LICENSE.txt in Resources */,
 				4DB4288113A5FAC300250C22 /* hero.png in Resources */,
 				4DB4288213A5FAC300250C22 /* noise.png in Resources */,
+				4DF5F31013B2292300CC2632 /* resetButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

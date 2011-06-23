@@ -24,10 +24,12 @@
     Hero *_hero;
     BOOL tapDown;
     GLESDebugDraw *render;
+    CCSprite *_resetButton;
 }
 @property (nonatomic, retain) Sky *sky;
 @property (nonatomic, retain) Terrain *terrain;
 @property (nonatomic, retain) Hero *hero;
+@property (nonatomic, retain) CCSprite *resetButton;
 
 + (CCScene*) scene;
 
