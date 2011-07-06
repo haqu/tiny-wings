@@ -39,6 +39,12 @@
 + (id) terrainWithWorld:(b2World*)w;
 - (id) initWithWorld:(b2World*)w;
 
+-(void) addStripes;
+-(void) addNoise:(CCRenderTexture*)rt;
+-(void) addTopBorder;
+-(void) addHighlight;
+-(void) addGradient;
+
 - (void) reset;
 
 @end
