@@ -232,6 +232,9 @@
     glColorPointer(4, GL_FLOAT, 0, colors);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glDrawArrays(GL_TRIANGLES, 0, (GLsizei)nVertices);
+    
+    free(vertices);
+    free(colors);
 }
 
 -(void) addGradient
