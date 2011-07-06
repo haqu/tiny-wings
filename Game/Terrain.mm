@@ -113,8 +113,99 @@
 }
 
 - (CCTexture2D*) generateStripesTexture {
+    CCRenderTexture *rt = [CCRenderTexture renderTextureWithWidth:textureSize height:textureSize];
+    [rt begin];
+    
+    [self addStripes];
 
-	// random number of stripes (even)
+    [self addGradient];
+
+    [self addHighlight];
+
+    [self addTopBorder];
+
+    [self addNoise:rt];
+
+    [rt end];
+
+    return rt.sprite.texture;
+}
+
+-(int) horizontalStripesWithNumStripes:(int) nStripes andVertices:(CGPoint *)vertices andColors:(ccColor4F*)colors
+{
+    int nVertices = 0;
+    
+    float x1, x2, y1, y2, dx, dy;
+    // horizontal stripes with fixed height for each stripe
+    
+    dx = 0;
+    dy = (float)textureSize / (float)nStripes;
+    
+    x1 = 0;
+    y1 = 0;
+    
+    x2 = textureSize;
+    y2 = 0;
+    
+    for (int i=0; i<nStripes; i++) {
+        colors[nVertices]   = colors[nVertices+1] = colors[nVertices+2] =
+        colors[nVertices+3] = colors[nVertices+4] = colors[nVertices+5] = [self generateColor];
+        
+        vertices[nVertices++] = ccp(x1, y1);
+        vertices[nVertices++] = ccp(x2, y2);
+        vertices[nVertices++] = ccp(x1, y1+dy);
+        
+        vertices[nVertices++] = vertices[nVertices-2];
+        vertices[nVertices++] = vertices[nVertices-2];        
+        vertices[nVertices++] = ccp(x2, y2+dy);        
+        
+        y1 += dy;
+        y2 += dy;
+    }
+    
+    return nVertices;
+}
+
+-(int) verticalStripesWithNumStripes:(int) nStripes andVertices:(CGPoint *)vertices andColors:(ccColor4F*)colors
+{
+    int nVertices = 0;
+    
+    float x1, x2, y1, y2, dx, dy;
+
+    NSLog( @"diagonal stripes" );        
+    dx = (float)textureSize*2 / (float)nStripes;
+    dy = 0;
+    
+    x1 = -textureSize;
+    y1 = 0;
+    
+    x2 = 0;
+    y2 = textureSize;
+    
+    for (int i=0; i<nStripes/2; i++) {        
+        ccColor4F c = [self generateColor];
+        for (int j=0; j<2; j++) {            
+            colors[nVertices]   = colors[nVertices+1] = colors[nVertices+2] =
+            colors[nVertices+3] = colors[nVertices+4] = colors[nVertices+5] = c;
+
+            vertices[nVertices++] = ccp(x1+j*textureSize, y1);        
+            vertices[nVertices++] = ccp(x1+j*textureSize+dx, y1);        
+            vertices[nVertices++] = ccp(x2+j*textureSize, y2);        
+            
+            vertices[nVertices++] = vertices[nVertices-2];        
+            vertices[nVertices++] = vertices[nVertices-2];        
+            vertices[nVertices++] = ccp(x2+j*textureSize+dx, y2);        
+        }
+        x1 += dx;        
+        x2 += dx;
+    }
+
+    return nVertices;
+}
+
+-(void) addStripes
+{
+    // random number of stripes (even)
     const int minStripes = 4;
     const int maxStripes = 40;
     int nStripes = arc4random()%(maxStripes-minStripes)+minStripes;
@@ -123,110 +214,48 @@
     }
     NSLog(@"nStripes = %d", nStripes);
     
-    CCRenderTexture *rt = [CCRenderTexture renderTextureWithWidth:textureSize height:textureSize];
-    [rt begin];
-    
-    // layer 1: stripes
-
-    CGPoint vertices[maxStripes*6];
-    ccColor4F colors[maxStripes*6];
+    CGPoint *vertices = (CGPoint*)malloc(sizeof(CGPoint) * maxStripes * 6);
+    ccColor4F *colors = (ccColor4F*)malloc(sizeof(ccColor4F) * maxStripes * 6 );
     int nVertices = 0;
 
-    float x1, x2, y1, y2, dx, dy;
-    ccColor4F c;
-    
-    if (arc4random()%2) {
-
-        // diagonal stripes
-        
-        dx = (float)textureSize*2 / (float)nStripes;
-        dy = 0;
-
-        x1 = -textureSize;
-        y1 = 0;
-        
-        x2 = 0;
-        y2 = textureSize;
-
-        for (int i=0; i<nStripes/2; i++) {
-            c = [self generateColor];
-            for (int j=0; j<2; j++) {
-                vertices[nVertices] = ccp(x1+j*textureSize, y1);
-                colors[nVertices++] = c;
-                vertices[nVertices] = ccp(x1+j*textureSize+dx, y1);
-                colors[nVertices++] = c;
-                vertices[nVertices] = ccp(x2+j*textureSize, y2);
-                colors[nVertices++] = c;
-                vertices[nVertices] = vertices[nVertices-2];
-                colors[nVertices++] = c;
-                vertices[nVertices] = vertices[nVertices-2];
-                colors[nVertices++] = c;
-                vertices[nVertices] = ccp(x2+j*textureSize+dx, y2);
-                colors[nVertices++] = c;
-            }
-            x1 += dx;
-            x2 += dx;
-        }
-        
+    if(arc4random()%2) {
+        nVertices = [self verticalStripesWithNumStripes:nStripes andVertices:vertices andColors:colors]; 
     } else {
-        
-        // horizontal stripes
-        
-        dx = 0;
-        dy = (float)textureSize / (float)nStripes;
-
-        x1 = 0;
-        y1 = 0;
-        
-        x2 = textureSize;
-        y2 = 0;
-        
-        for (int i=0; i<nStripes; i++) {
-            c = [self generateColor];
-            vertices[nVertices] = ccp(x1, y1);
-            colors[nVertices++] = c;
-            vertices[nVertices] = ccp(x2, y2);
-            colors[nVertices++] = c;
-            vertices[nVertices] = ccp(x1, y1+dy);
-            colors[nVertices++] = c;
-            vertices[nVertices] = vertices[nVertices-2];
-            colors[nVertices++] = c;
-            vertices[nVertices] = vertices[nVertices-2];
-            colors[nVertices++] = c;
-            vertices[nVertices] = ccp(x2, y2+dy);
-            colors[nVertices++] = c;
-            y1 += dy;
-            y2 += dy;
-        }
-        
+        nVertices = [self horizontalStripesWithNumStripes:nStripes andVertices:vertices andColors:colors];        
     }
     
     glDisable(GL_TEXTURE_2D);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
+    
     glColor4f(1, 1, 1, 1);
     glVertexPointer(2, GL_FLOAT, 0, vertices);
     glColorPointer(4, GL_FLOAT, 0, colors);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glDrawArrays(GL_TRIANGLES, 0, (GLsizei)nVertices);
+}
 
-    // layer: gradient
-
+-(void) addGradient
+{
+    int nVertices = 0;
+    CGPoint vertices[6];
+    ccColor4F colors[6];
+    
+    
     float gradientAlpha = 0.5f;
     float gradientWidth = textureSize;
     
     nVertices = 0;
-
+    
     vertices[nVertices] = ccp(0, 0);
     colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
     vertices[nVertices] = ccp(textureSize, 0);
     colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
-
+    
     vertices[nVertices] = ccp(0, gradientWidth);
     colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
     vertices[nVertices] = ccp(textureSize, gradientWidth);
     colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
-
+    
     if (gradientWidth < textureSize) {
         vertices[nVertices] = ccp(0, textureSize);
         colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
@@ -237,19 +266,23 @@
     glVertexPointer(2, GL_FLOAT, 0, vertices);
     glColorPointer(4, GL_FLOAT, 0, colors);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, (GLsizei)nVertices);
+}
 
-    // layer: highlight
-
-    float highlightAlpha = 0.5f;
+-(void) addHighlight
+{
+    
+    float highlightAlpha = 0.9f;
     float highlightWidth = textureSize/4;
-
-    nVertices = 0;
+    
+    int nVertices = 0;
+    CGPoint vertices[4];
+    ccColor4F colors[4];
     
     vertices[nVertices] = ccp(0, 0);
     colors[nVertices++] = (ccColor4F){1, 1, 0.5f, highlightAlpha}; // yellow
     vertices[nVertices] = ccp(textureSize, 0);
     colors[nVertices++] = (ccColor4F){1, 1, 0.5f, highlightAlpha};
-
+    
     vertices[nVertices] = ccp(0, highlightWidth);
     colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
     vertices[nVertices] = ccp(textureSize, highlightWidth);
@@ -260,26 +293,31 @@
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, (GLsizei)nVertices);
     
-    // layer: top border
-    
-    float borderAlpha = 0.5f;
-    float borderWidth = 2.0f;
-    
-    nVertices = 0;
-    
-    vertices[nVertices++] = ccp(0, borderWidth/2);
-    vertices[nVertices++] = ccp(textureSize, borderWidth/2);
+}
 
+-(void) addTopBorder
+{
+    float borderAlpha = 0.5f;
+    float borderWidth = 20.0f;
+    
+    int nVertices = 0;
+    CGPoint edgeVertices[2];
+    
+    edgeVertices[nVertices++] = ccp(0, borderWidth/2);
+    edgeVertices[nVertices++] = ccp(textureSize, borderWidth/2);
+    
     glDisableClientState(GL_COLOR_ARRAY);
     
     glLineWidth(borderWidth);
     glColor4f(0, 0, 0, borderAlpha);
-    glVertexPointer(2, GL_FLOAT, 0, vertices);
+    glVertexPointer(2, GL_FLOAT, 0, edgeVertices);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDrawArrays(GL_LINE_STRIP, 0, (GLsizei)nVertices);
     
-    // layer: noise
+}
 
+-(void) addNoise:(CCRenderTexture*)rt 
+{
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glEnable(GL_TEXTURE_2D);	
     
@@ -290,11 +328,9 @@
     glColor4f(1, 1, 1, 1);
     [s visit];
     [s visit]; // more contrast
-
-    [rt end];
-
-    return rt.sprite.texture;
 }
+
+
 
 - (CCSprite*) generateStripesSprite {
 
