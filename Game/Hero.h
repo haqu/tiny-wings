@@ -12,10 +12,10 @@
 #import "Box2D.h"
 
 @interface Hero : CCNode {
-    CCSprite *_sprite;
-    b2World *world;
-    b2Body *body;
-    float radius;
+	CCSprite *_sprite;
+	b2World *world;
+	b2Body *body;
+	float radius;
 	BOOL awake;
 }
 @property (nonatomic, retain) CCSprite *sprite;

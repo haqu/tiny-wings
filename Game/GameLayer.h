@@ -16,15 +16,15 @@
 @class Hero;
 
 @interface GameLayer : CCLayer {
-    int screenW;
-    int screenH;
-    b2World *world;
-    Sky *_sky;
-    Terrain *_terrain;
-    Hero *_hero;
-    BOOL tapDown;
-    GLESDebugDraw *render;
-    CCSprite *_resetButton;
+	int screenW;
+	int screenH;
+	b2World *world;
+	Sky *_sky;
+	Terrain *_terrain;
+	Hero *_hero;
+	BOOL tapDown;
+	GLESDebugDraw *render;
+	CCSprite *_resetButton;
 }
 @property (nonatomic, retain) Sky *sky;
 @property (nonatomic, retain) Terrain *terrain;

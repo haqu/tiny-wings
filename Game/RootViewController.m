@@ -49,9 +49,9 @@
 	//
 	// There are 2 ways to support auto-rotation:
 	//  - The OpenGL / cocos2d way
-	//     - Faster, but doesn't rotate the UIKit objects
+	//	 - Faster, but doesn't rotate the UIKit objects
 	//  - The ViewController way
-	//    - A bit slower, but the UiKit objects are placed in the right place
+	//	- A bit slower, but the UiKit objects are placed in the right place
 	//
 	
 #if GAME_AUTOROTATION==kGameAutorotationNone
@@ -132,21 +132,21 @@
 
 
 - (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+	// Releases the view if it doesn't have a superview.
+	[super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
 }
 
 - (void)viewDidUnload {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+	[super viewDidUnload];
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
 }
 
 
 - (void)dealloc {
-    [super dealloc];
+	[super dealloc];
 }
 
 

@@ -19,12 +19,12 @@
 
 - (void) removeStartupFlicker {
 
-    //
-    // THIS CODE REMOVES THE STARTUP FLICKER
-    //
-    // Uncomment the following code if you Application only supports landscape mode
-    //
-    
+	//
+	// THIS CODE REMOVES THE STARTUP FLICKER
+	//
+	// Uncomment the following code if you Application only supports landscape mode
+	//
+	
 #if GAME_AUTOROTATION == kGameAutorotationUIViewController
 
 //	CC_ENABLE_DEFAULT_GL_STATES();
@@ -41,7 +41,7 @@
 }
 
 - (void) applicationDidFinishLaunching:(UIApplication*)application {
-    
+	
 	// Init the window
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	
