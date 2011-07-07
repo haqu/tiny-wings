@@ -137,9 +137,15 @@
     [self sleep];
 }
 
--(BOOL) isTouchingGround {
+- (BOOL) isTouchingGround {
     b2ContactEdge *edge = body->GetContactList();
     return edge ? YES : NO;
+}
+
+- (BOOL) isTakeoffSpeed {
+    float speed = body->GetLinearVelocity().Length();
+    NSLog(@"Takeoff Speed: %.2f", speed);
+    return speed > kTakeoffSpeed;
 }
 
 @end
