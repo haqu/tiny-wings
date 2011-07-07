@@ -151,49 +151,63 @@
     [self addChild:jumpLabel];
 }
 
+- (void) newFlyingState:(FlyingState)newState
+{
+    flyingState = newState;
+    timeInState = 0;
+}
 - (void) handleLandings
 {
-    switch (flyingState) {
-            
+    switch (flyingState) {            
         case kFLYING:
-            jumpsInARow = 0;
         case kSTREAKING:
             if([_hero isTouchingGround] ) {
-                flyingState = kLANDED;
+                [self newFlyingState:kLANDED];
             }
             break;
             
         case kLANDED:
             if([_hero isTouchingGround]) {
                 if( [self isGoingUp:_hero] ) {
-                    flyingState = kFLYING;
+                    [self newFlyingState:kFLYING];
                     jumpsInARow = 0;
                 } else if( [self isGoingDown:_hero] ) {
-                    flyingState = kGOING_DOWN;
+                    [self newFlyingState:kGOING_DOWN];
                 }                
             } else {
-                flyingState = kFLYING;
+                [self newFlyingState:kFLYING];
             }
             break;
+            
         case kGOING_DOWN:
             if([_hero isTouchingGround]) {
                 if( [self isGoingUp:_hero] ) {
-                    flyingState = kGOING_UP;
+                    if( timeInState > kMinDownTime)
+                        [self newFlyingState:kGOING_UP];
+                    else
+                        [self newFlyingState:kFLYING];                        
                 } else if( [self isGoingDown:_hero] ) {
-                    flyingState = kGOING_DOWN;
+                    
                 } 
             } else {
-                flyingState = kFLYING;
+                [self newFlyingState:kFLYING];
             }
             break;
+            
         case kGOING_UP:
             if([_hero isTouchingGround]) {
                 if([self isGoingDown:_hero]){
-                    flyingState = kFLYING;
+                    [self newFlyingState:kFLYING];
                 }
             } else {
-                [self heroJumped];
-                flyingState = kSTREAKING;
+                [_hero isTakeoffSpeed];
+                if(timeInState>kMinUpTime) {
+                    [self heroJumped];
+                    [self newFlyingState:kSTREAKING];
+                }
+                else {
+                    [self newFlyingState:kFLYING];
+                }
             }
             
         default:
@@ -216,6 +230,7 @@
     [_hero limitVelocity];
     
     [self handleLandings];
+    timeInState += dt;
     
     int32 velocityIterations = 8;
     int32 positionIterations = 3;
