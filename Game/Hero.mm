@@ -131,7 +131,8 @@
 }
 
 - (void) reset {
-    world->DestroyBody(body);
+    if(body)
+        world->DestroyBody(body);
     [self createBox2DBody];
     [self sleep];
 }

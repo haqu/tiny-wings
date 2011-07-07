@@ -40,8 +40,7 @@
 #ifndef DRAW_BOX2D_WORLD
         
         textureSize = 512;
-        
-        self.stripes = [self generateStripesSprite];
+        [self reset];
         
 #endif
         
