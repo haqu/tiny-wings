@@ -214,8 +214,8 @@
     }
     NSLog(@"nStripes = %d", nStripes);
     
-    CGPoint *vertices = (CGPoint*)malloc(sizeof(CGPoint) * maxStripes * 6);
-    ccColor4F *colors = (ccColor4F*)malloc(sizeof(ccColor4F) * maxStripes * 6 );
+    CGPoint *vertices = (CGPoint*)malloc(sizeof(CGPoint) * nStripes * 6);
+    ccColor4F *colors = (ccColor4F*)malloc(sizeof(ccColor4F) * nStripes * 6 );
     int nVertices = 0;
 
     if(arc4random()%2) {
@@ -301,7 +301,7 @@
 -(void) addTopBorder
 {
     float borderAlpha = 0.5f;
-    float borderWidth = 20.0f;
+    float borderWidth = 2.0f;
     
     int nVertices = 0;
     CGPoint edgeVertices[2];
@@ -332,8 +332,6 @@
     [s visit];
     [s visit]; // more contrast
 }
-
-
 
 - (CCSprite*) generateStripesSprite {
 
@@ -410,7 +408,6 @@
         
         p0 = p1;
     }
-//    NSLog(@"nBorderVertices = %d", nBorderVertices);
 }
 
 - (void) createBox2DBody {
@@ -501,8 +498,6 @@
             
             p0 = p1;
         }
-        
-//        NSLog(@"nHillVertices = %d", nHillVertices);
         
         prevFromKeyPointI = fromKeyPointI;
         prevToKeyPointI = toKeyPointI;
