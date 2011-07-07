@@ -29,6 +29,7 @@
 - (void) dive;
 - (void) limitVelocity;
 - (void) updateNodePosition;
+- (BOOL) isTouchingGround;
 
 - (void) reset;
 

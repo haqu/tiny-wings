@@ -136,4 +136,9 @@
     [self sleep];
 }
 
+-(BOOL) isTouchingGround {
+    b2ContactEdge *edge = body->GetContactList();
+    return edge ? YES : NO;
+}
+
 @end
