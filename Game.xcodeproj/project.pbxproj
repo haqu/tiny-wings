@@ -177,6 +177,12 @@
 		4DFD3018139CCCA6001E1480 /* GameLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4DFD3017139CCCA6001E1480 /* GameLayer.mm */; };
 		4DFE49C5139F507200973A5D /* Terrain.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4DFE49C4139F507200973A5D /* Terrain.mm */; };
 		4DFE49C7139F6A7900973A5D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4DFE49C6139F6A7900973A5D /* README.md */; };
+		64B3D04513C5E413009A9A3E /* GOODDC__.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 64B3D04113C5E413009A9A3E /* GOODDC__.TTF */; };
+		64B3D04613C5E413009A9A3E /* GOODDOGC.TXT in Resources */ = {isa = PBXBuildFile; fileRef = 64B3D04213C5E413009A9A3E /* GOODDOGC.TXT */; };
+		64B3D04713C5E413009A9A3E /* GOODDOGP.TXT in Resources */ = {isa = PBXBuildFile; fileRef = 64B3D04313C5E413009A9A3E /* GOODDOGP.TXT */; };
+		64B3D04813C5E413009A9A3E /* GOODDP__.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 64B3D04413C5E413009A9A3E /* GOODDP__.TTF */; };
+		64B3D04C13C5E6D9009A9A3E /* good_dog_plain_32.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 64B3D04A13C5E6D9009A9A3E /* good_dog_plain_32.fnt */; };
+		64B3D04D13C5E6D9009A9A3E /* good_dog_plain_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 64B3D04B13C5E6D9009A9A3E /* good_dog_plain_32.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -520,6 +526,12 @@
 		4DFE49C3139F507200973A5D /* Terrain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Terrain.h; sourceTree = "<group>"; };
 		4DFE49C4139F507200973A5D /* Terrain.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Terrain.mm; sourceTree = "<group>"; };
 		4DFE49C6139F6A7900973A5D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
+		64B3D04113C5E413009A9A3E /* GOODDC__.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = GOODDC__.TTF; sourceTree = "<group>"; };
+		64B3D04213C5E413009A9A3E /* GOODDOGC.TXT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = GOODDOGC.TXT; sourceTree = "<group>"; };
+		64B3D04313C5E413009A9A3E /* GOODDOGP.TXT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = GOODDOGP.TXT; sourceTree = "<group>"; };
+		64B3D04413C5E413009A9A3E /* GOODDP__.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = GOODDP__.TTF; sourceTree = "<group>"; };
+		64B3D04A13C5E6D9009A9A3E /* good_dog_plain_32.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = good_dog_plain_32.fnt; sourceTree = "<group>"; };
+		64B3D04B13C5E6D9009A9A3E /* good_dog_plain_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = good_dog_plain_32.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -758,6 +770,7 @@
 		4DFD2EBF139CCCA0001E1480 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				64B3D04013C5E413009A9A3E /* good_dog */,
 				4DF5F30F13B2292300CC2632 /* resetButton.png */,
 				4DB4287F13A5FAC300250C22 /* hero.png */,
 				4DB4288013A5FAC300250C22 /* noise.png */,
@@ -1088,6 +1101,19 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		64B3D04013C5E413009A9A3E /* good_dog */ = {
+			isa = PBXGroup;
+			children = (
+				64B3D04113C5E413009A9A3E /* GOODDC__.TTF */,
+				64B3D04A13C5E6D9009A9A3E /* good_dog_plain_32.fnt */,
+				64B3D04B13C5E6D9009A9A3E /* good_dog_plain_32.png */,
+				64B3D04213C5E413009A9A3E /* GOODDOGC.TXT */,
+				64B3D04313C5E413009A9A3E /* GOODDOGP.TXT */,
+				64B3D04413C5E413009A9A3E /* GOODDP__.TTF */,
+			);
+			path = good_dog;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1150,6 +1176,12 @@
 				4DB4288113A5FAC300250C22 /* hero.png in Resources */,
 				4DB4288213A5FAC300250C22 /* noise.png in Resources */,
 				4DF5F31013B2292300CC2632 /* resetButton.png in Resources */,
+				64B3D04513C5E413009A9A3E /* GOODDC__.TTF in Resources */,
+				64B3D04613C5E413009A9A3E /* GOODDOGC.TXT in Resources */,
+				64B3D04713C5E413009A9A3E /* GOODDOGP.TXT in Resources */,
+				64B3D04813C5E413009A9A3E /* GOODDP__.TTF in Resources */,
+				64B3D04C13C5E6D9009A9A3E /* good_dog_plain_32.fnt in Resources */,
+				64B3D04D13C5E6D9009A9A3E /* good_dog_plain_32.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

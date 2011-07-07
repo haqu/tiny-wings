@@ -15,6 +15,8 @@
 @class Terrain;
 @class Hero;
 
+typedef enum { kFLYING, kLANDED, kGOING_DOWN, kGOING_UP, kSTREAKING } FlyingState;
+
 @interface GameLayer : CCLayer {
     int screenW;
     int screenH;
@@ -25,6 +27,9 @@
     BOOL tapDown;
     GLESDebugDraw *render;
     CCSprite *_resetButton;
+    FlyingState flyingState;
+    CGPoint lastTouchingSpot;
+    int jumpsInARow;
 }
 @property (nonatomic, retain) Sky *sky;
 @property (nonatomic, retain) Terrain *terrain;
@@ -32,5 +37,5 @@
 @property (nonatomic, retain) CCSprite *resetButton;
 
 + (CCScene*) scene;
-
+- (void) resetEverything;
 @end
