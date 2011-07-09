@@ -10,6 +10,7 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "Box2D.h"
+#define kTakeoffSpeed 22.0f
 
 @interface Hero : CCNode {
 	CCSprite *_sprite;
@@ -29,7 +30,8 @@
 - (void) dive;
 - (void) limitVelocity;
 - (void) updateNodePosition;
-
+- (BOOL) isTouchingGround;
+- (BOOL) isTakeoffSpeed;
 - (void) reset;
 
 @end

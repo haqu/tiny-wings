@@ -14,6 +14,7 @@
 
 @interface GameLayer()
 - (void) createBox2DWorld;
+- (void) reset;
 @end
 
 @implementation GameLayer
@@ -61,6 +62,9 @@
 		self.isTouchEnabled = YES;
 		tapDown = NO;
 
+		flyingState = kFLYING;
+		jumpsInARow = 0;
+		
 		[self scheduleUpdate];
 	}
 	return self;
@@ -90,7 +94,15 @@
 	[[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
 }
 
+- (void) reset {
+    [_terrain reset];
+    [_hero reset];
+    flyingState = kFLYING;
+    jumpsInARow = 0;
+}
+
 - (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+
 	CGPoint location = [touch locationInView:[touch view]];
 	location = [[CCDirector sharedDirector] convertToGL:location];
 	
@@ -101,8 +113,7 @@
 	float h = size.height+padding*2;
 	CGRect rect = CGRectMake(pos.x-w/2, pos.y-h/2, w, h);
 	if (CGRectContainsPoint(rect, location)) {
-		[_terrain reset];
-		[_hero reset];
+		[self reset];
 	} else {
 		tapDown = YES;
 	}
@@ -112,6 +123,101 @@
 
 - (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
 	tapDown = NO;
+}
+
+- (BOOL) isGoingDown:(Hero*)hero
+{
+    return hero.position.y <= lastTouchingSpot.y ? YES : NO;
+}
+
+- (BOOL) isGoingUp:(Hero*)hero
+{
+    return hero.position.y >= lastTouchingSpot.y ? YES : NO;
+}
+
+- (void) heroJumped
+{
+    jumpsInARow++;
+    
+    NSString *jumpString = [NSString stringWithFormat:@"JUMP x %d", jumpsInARow];
+    CCLabelBMFont *jumpLabel = [CCLabelBMFont labelWithString:jumpString fntFile:@"good_dog_plain_32.fnt"];
+    [jumpLabel setString:jumpString];
+
+    jumpLabel.position = CGPointMake(70, 120 );
+    [jumpLabel runAction:[CCRotateBy actionWithDuration:0.25f angle:(abs(arc4random()%20)-10)]];
+    [jumpLabel runAction:[CCScaleBy actionWithDuration:0.25f scale:1.1f]];
+    [jumpLabel runAction:[CCSequence actions:
+                          [CCFadeOut actionWithDuration:0.4f],
+                          [CCCallFuncND actionWithTarget:jumpLabel selector:@selector(removeFromParentAndCleanup:) data:(void*)YES],
+                          nil] ];
+    
+    [self addChild:jumpLabel];
+}
+
+- (void) newFlyingState:(FlyingState)newState
+{
+    flyingState = newState;
+    timeInState = 0;
+}
+- (void) handleLandings
+{
+    switch (flyingState) {            
+        case kFLYING:
+        case kSTREAKING:
+            if([_hero isTouchingGround] ) {
+                [self newFlyingState:kLANDED];
+            }
+            break;
+            
+        case kLANDED:
+            if([_hero isTouchingGround]) {
+                if( [self isGoingUp:_hero] ) {
+                    [self newFlyingState:kFLYING];
+                    jumpsInARow = 0;
+                } else if( [self isGoingDown:_hero] ) {
+                    [self newFlyingState:kGOING_DOWN];
+                }                
+            } else {
+                [self newFlyingState:kFLYING];
+            }
+            break;
+            
+        case kGOING_DOWN:
+            if([_hero isTouchingGround]) {
+                if( [self isGoingUp:_hero] ) {
+                    if( timeInState > kMinDownTime)
+                        [self newFlyingState:kGOING_UP];
+                    else
+                        [self newFlyingState:kFLYING];                        
+                } else if( [self isGoingDown:_hero] ) {
+                    
+                } 
+            } else {
+                [self newFlyingState:kFLYING];
+            }
+            break;
+            
+        case kGOING_UP:
+            if([_hero isTouchingGround]) {
+                if([self isGoingDown:_hero]){
+                    [self newFlyingState:kFLYING];
+                }
+            } else {
+                [_hero isTakeoffSpeed];
+                if(timeInState>kMinUpTime) {
+                    [self heroJumped];
+                    [self newFlyingState:kSTREAKING];
+                }
+                else {
+                    [self newFlyingState:kFLYING];
+                }
+            }
+            
+        default:
+            break;
+    }
+               
+    lastTouchingSpot = _hero.position;
 }
 
 - (void) update:(ccTime)dt {
@@ -125,6 +231,9 @@
 		}
 	}
 	[_hero limitVelocity];
+
+	[self handleLandings];
+	timeInState += dt;
 	
 	int32 velocityIterations = 8;
 	int32 positionIterations = 3;
