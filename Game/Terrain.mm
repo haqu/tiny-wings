@@ -44,10 +44,8 @@
 		screenH = size.height;
 		
 #ifndef DRAW_BOX2D_WORLD
-		
 		textureSize = 512;
-        [self reset];
-		
+		self.stripes = [self generateStripesSprite];
 #endif
 		
 		[self generateHillKeyPoints];
@@ -97,14 +95,14 @@
 - (void) renderStripes {
 	
 	const int minStripes = 4;
-	const int maxStripes = 40;
+	const int maxStripes = 30;
 	
 	// random even number of stripes
 	int nStripes = arc4random()%(maxStripes-minStripes)+minStripes;
 	if (nStripes%2) {
 		nStripes++;
 	}
-	NSLog(@"nStripes = %d", nStripes);
+//	NSLog(@"nStripes = %d", nStripes);
 	
 	CGPoint *vertices = (CGPoint*)malloc(sizeof(CGPoint)*nStripes*6);
 	ccColor4F *colors = (ccColor4F*)malloc(sizeof(ccColor4F)*nStripes*6);
@@ -498,7 +496,11 @@
 }
 
 - (void) reset {
+	
+#ifndef DRAW_BOX2D_WORLD
 	self.stripes = [self generateStripesSprite];
+#endif
+	
 	fromKeyPointI = 0;
 	toKeyPointI = 0;
 }

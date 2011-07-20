@@ -11,35 +11,32 @@
 #import "Box2D.h"
 #import "GLES-Render.h"
 
-#define kMinDownTime 0.12f
-#define kMinUpTime 0.12f
-
 @class Sky;
 @class Terrain;
 @class Hero;
 
-typedef enum { kFLYING, kLANDED, kGOING_DOWN, kGOING_UP, kSTREAKING } FlyingState;
-
 @interface GameLayer : CCLayer {
-	int screenW;
-	int screenH;
-	b2World *world;
+	int _screenW;
+	int _screenH;
+	b2World *_world;
 	Sky *_sky;
 	Terrain *_terrain;
 	Hero *_hero;
-	BOOL tapDown;
-	GLESDebugDraw *render;
+	GLESDebugDraw *_render;
 	CCSprite *_resetButton;
-    FlyingState flyingState;
-    float timeInState;
-    CGPoint lastTouchingSpot;
-    int jumpsInARow;
 }
+@property (readonly) int screenW;
+@property (readonly) int screenH;
+@property (nonatomic, readonly) b2World *world;
 @property (nonatomic, retain) Sky *sky;
 @property (nonatomic, retain) Terrain *terrain;
 @property (nonatomic, retain) Hero *hero;
 @property (nonatomic, retain) CCSprite *resetButton;
 
 + (CCScene*) scene;
+
+- (void) showPerfectSlide;
+- (void) showFrenzy;
+- (void) showHit;
 
 @end
