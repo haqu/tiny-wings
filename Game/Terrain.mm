@@ -30,7 +30,6 @@
 - (id) initWithWorld:(b2World*)w {
     
     if ((self = [super init])) {
-        
         world = w;
 
         CGSize size = [[CCDirector sharedDirector] winSize];
@@ -522,7 +521,9 @@
 }
 
 - (void) reset {
-    self.stripes = [self generateStripesSprite];
+    #ifndef DRAW_BOX2D_WORLD
+        self.stripes = [self generateStripesSprite];
+    #endif
     fromKeyPointI = 0;
     toKeyPointI = 0;
 }
