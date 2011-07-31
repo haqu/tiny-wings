@@ -111,6 +111,9 @@
     return ccc4FFromccc3B(ccc3(r, g, b));
 }
 
+#pragma mark -
+#pragma mark Drawing the terrain textures
+// The texture itself is completely flat and simple.  Warping comes when we map the texture onto the "curved" polygon
 - (CCTexture2D*) generateStripesTexture {
     CCRenderTexture *rt = [CCRenderTexture renderTextureWithWidth:textureSize height:textureSize];
     [rt begin];
@@ -342,6 +345,10 @@
     return sprite;
 }
 
+
+#pragma mark -
+#pragma mark Build the terrain geometry
+
 - (void) generateHillKeyPoints {
 
     nHillKeyPoints = 0;
@@ -429,6 +436,7 @@
     body->CreateFixture(&shape, 0);
 }
 
+// If the visible window has changed, draw the intervening hill vertices, replacing the old ones.
 - (void) resetHillVertices {
 
 #ifdef DRAW_BOX2D_WORLD
