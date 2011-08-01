@@ -7,7 +7,9 @@
  *
  */
 
+#import "GameLayer.h"
 #import "Hero.h"
+#import "HeroContactListener.h"
 #import "Box2D.h"
 
 @interface Hero()
@@ -16,136 +18,186 @@
 
 @implementation Hero
 
+@synthesize game = _game;
 @synthesize sprite = _sprite;
-@synthesize awake;
+@synthesize awake = _awake;
+@synthesize diving = _diving;
 
-+ (id) heroWithWorld:(b2World*)w {
-	return [[[self alloc] initWithWorld:w] autorelease];
++ (id) heroWithGame:(GameLayer*)game {
+	return [[[self alloc] initWithGame:game] autorelease];
 }
 
-- (id) initWithWorld:(b2World*)w {
-    
+- (id) initWithGame:(GameLayer*)game {
+	
 	if ((self = [super init])) {
 
+		self.game = game;
+		
 #ifndef DRAW_BOX2D_WORLD
-        self.sprite = [CCSprite spriteWithFile:@"hero.png"];
-        [self addChild:_sprite];
+		self.sprite = [CCSprite spriteWithFile:@"hero.png"];
+		[self addChild:_sprite];
 #endif
-        
-		world = w;
-		radius = 14.0f;
-		awake = NO;
+		_body = NULL;
+		_radius = 14.0f;
 
-		[self createBox2DBody];
-        [self updateNodePosition];
-		[self sleep];
+		_contactListener = new HeroContactListener(self);
+		_game.world->SetContactListener(_contactListener);
+
+		[self reset];
 	}
 	return self;
 }
 
 - (void) dealloc {
 
+	self.game = nil;
+	
 #ifndef DRAW_BOX2D_WORLD
-    self.sprite = nil;
+	self.sprite = nil;
 #endif
 
-    [super dealloc];
+	delete _contactListener;
+	[super dealloc];
 }
 
 - (void) createBox2DBody {
 
-    CGSize size = [[CCDirector sharedDirector] winSize];
-    int screenH = size.height;
-
-    CGPoint startPosition = ccp(0, screenH/2+radius);
-    
-    b2BodyDef bd;
-    bd.type = b2_dynamicBody;
-    bd.linearDamping = 0.05f;
-    bd.fixedRotation = true;
-    bd.position.Set(startPosition.x/PTM_RATIO, startPosition.y/PTM_RATIO);
-    body = world->CreateBody(&bd);
-    
-    b2CircleShape shape;
-    shape.m_radius = radius/PTM_RATIO;
-    
-    b2FixtureDef fd;
-    fd.shape = &shape;
-    fd.density = 1.0f;
-    fd.restitution = 0; // bounce
-    fd.friction = 0;
-    
-    body->CreateFixture(&fd);
-}
-
-- (void) sleep {
-	awake = NO;
-	body->SetActive(false);
-}
-
-- (void) wake {
-	awake = YES;
-	body->SetActive(true);
-	body->ApplyLinearImpulse(b2Vec2(1,2), body->GetPosition());
-}
-
-- (void) dive {
-    body->ApplyForce(b2Vec2(0,-40),body->GetPosition());
-}
-
-- (void) limitVelocity {
-    const float minVelocityX = 3;
-    const float minVelocityY = -40;
-    b2Vec2 vel = body->GetLinearVelocity();
-    if (vel.x < minVelocityX) {
-        vel.x = minVelocityX;
-    }
-    if (vel.y < minVelocityY) {
-        vel.y = minVelocityY;
-    }
-    body->SetLinearVelocity(vel);
-}
-
-- (void) updateNodePosition {
-
-    float x = body->GetPosition().x*PTM_RATIO;
-    float y = body->GetPosition().y*PTM_RATIO;
-
-	self.position = ccp(x, y);
-    b2Vec2 vel = body->GetLinearVelocity();
-    float angle = atan2f(vel.y, vel.x);
-
-#ifdef DRAW_BOX2D_WORLD
-    
-    body->SetTransform(body->GetPosition(), angle);
-    
-#else
-    
-    self.rotation = -1 * CC_RADIANS_TO_DEGREES(angle);
-    
-#endif
-    
-    if (y < -radius && awake) {
-        [self sleep];
-    }
+	CGPoint startPosition = ccp(0, _game.screenH/2+_radius);
+	
+	b2BodyDef bd;
+	bd.type = b2_dynamicBody;
+	bd.linearDamping = 0.05f;
+	bd.fixedRotation = true;
+	bd.position.Set(startPosition.x/PTM_RATIO, startPosition.y/PTM_RATIO);
+	_body = _game.world->CreateBody(&bd);
+	
+	b2CircleShape shape;
+	shape.m_radius = _radius/PTM_RATIO;
+	
+	b2FixtureDef fd;
+	fd.shape = &shape;
+	fd.density = 1.0f;
+	fd.restitution = 0; // bounce
+	fd.friction = 0;
+	
+	_body->CreateFixture(&fd);
 }
 
 - (void) reset {
-    if(body)
-        world->DestroyBody(body);
-    [self createBox2DBody];
-    [self sleep];
+	_flying = NO;
+	_diving = NO;
+	_nPerfectSlides = 0;
+	if (_body) {
+		_game.world->DestroyBody(_body);
+	}
+	[self createBox2DBody];
+	[self updateNode];
+	[self sleep];
 }
 
-- (BOOL) isTouchingGround {
-    b2ContactEdge *edge = body->GetContactList();
-    return edge ? YES : NO;
+- (void) sleep {
+	_awake = NO;
+	_body->SetActive(false);
 }
 
-- (BOOL) isTakeoffSpeed {
-    float speed = body->GetLinearVelocity().Length();
-    NSLog(@"Takeoff Speed: %.2f", speed);
-    return speed > kTakeoffSpeed;
+- (void) wake {
+	_awake = YES;
+	_body->SetActive(true);
+	_body->ApplyLinearImpulse(b2Vec2(1,2), _body->GetPosition());
+}
+
+- (void) updatePhysics {
+
+	// apply force if diving
+	if (_diving) {
+		if (!_awake) {
+			[self wake];
+			_diving = NO;
+		} else {
+			_body->ApplyForce(b2Vec2(0,-40),_body->GetPosition());
+		}
+	}
+	
+	// limit velocity
+	const float minVelocityX = 3;
+	const float minVelocityY = -40;
+	b2Vec2 vel = _body->GetLinearVelocity();
+	if (vel.x < minVelocityX) {
+		vel.x = minVelocityX;
+	}
+	if (vel.y < minVelocityY) {
+		vel.y = minVelocityY;
+	}
+	_body->SetLinearVelocity(vel);
+}
+
+- (void) updateNode {
+	float x = _body->GetPosition().x*PTM_RATIO;
+	float y = _body->GetPosition().y*PTM_RATIO;
+
+	// CCNode position and rotation
+	self.position = ccp(x, y);
+	b2Vec2 vel = _body->GetLinearVelocity();
+	float angle = atan2f(vel.y, vel.x);
+
+#ifdef DRAW_BOX2D_WORLD
+	body->SetTransform(body->GetPosition(), angle);
+#else
+	self.rotation = -1 * CC_RADIANS_TO_DEGREES(angle);
+#endif
+	
+	// collision detection
+	b2Contact *c = _game.world->GetContactList();
+	if (c) {
+		if (_flying) {
+			[self landed];
+		}
+	} else {
+		if (!_flying) {
+			[self tookOff];
+		}
+	}
+	
+	// TEMP: sleep if below the screen
+	if (y < -_radius && _awake) {
+		[self sleep];
+	}
+}
+
+- (void) landed {
+//	NSLog(@"landed");
+	_flying = NO;
+}
+
+- (void) tookOff {
+//	NSLog(@"tookOff");
+	_flying = YES;
+	b2Vec2 vel = _body->GetLinearVelocity();
+//	NSLog(@"vel.y = %f",vel.y);
+	if (vel.y > kPerfectTakeOffVelocityY) {
+//		NSLog(@"perfect slide");
+		_nPerfectSlides++;
+		if (_nPerfectSlides > 1) {
+			if (_nPerfectSlides == 4) {
+				[_game showFrenzy];
+			} else {
+				[_game showPerfectSlide];
+			}
+		}
+	}
+}
+
+- (void) hit {
+//	NSLog(@"hit");
+	_nPerfectSlides = 0;
+	[_game showHit];
+}
+
+- (void) setDiving:(BOOL)diving {
+	if (_diving != diving) {
+		_diving = diving;
+		// TODO: change sprite image here
+	}
 }
 
 @end

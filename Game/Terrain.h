@@ -16,34 +16,28 @@
 #define kHillSegmentWidth 15
 
 @interface Terrain : CCNode {
-    CGPoint hillKeyPoints[kMaxHillKeyPoints];
-    int nHillKeyPoints;
-    int fromKeyPointI;
-    int toKeyPointI;
-    CGPoint hillVertices[kMaxHillVertices];
-    CGPoint hillTexCoords[kMaxHillVertices];
-    int nHillVertices;
-    CGPoint borderVertices[kMaxBorderVertices];
-    int nBorderVertices;
-    CCSprite *_stripes;
-    float _offsetX;
-    b2World *world;
-    b2Body *body;
-    int screenW;
-    int screenH;
-    int textureSize;
+	CGPoint hillKeyPoints[kMaxHillKeyPoints];
+	int nHillKeyPoints;
+	int fromKeyPointI;
+	int toKeyPointI;
+	CGPoint hillVertices[kMaxHillVertices];
+	CGPoint hillTexCoords[kMaxHillVertices];
+	int nHillVertices;
+	CGPoint borderVertices[kMaxBorderVertices];
+	int nBorderVertices;
+	CCSprite *_stripes;
+	float _offsetX;
+	b2World *world;
+	b2Body *body;
+	int screenW;
+	int screenH;
+	int textureSize;
 }
 @property (nonatomic, retain) CCSprite *stripes;
 @property (nonatomic, assign) float offsetX;
 
 + (id) terrainWithWorld:(b2World*)w;
 - (id) initWithWorld:(b2World*)w;
-
-- (void) addStripes;
-- (void) addNoise:(CCRenderTexture*)rt;
-- (void) addTopBorder;
-- (void) addHighlight;
-- (void) addGradient;
 
 - (void) reset;
 

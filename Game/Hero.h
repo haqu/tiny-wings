@@ -10,28 +10,39 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "Box2D.h"
-#define kTakeoffSpeed 22.0f
+
+#define kPerfectTakeOffVelocityY 2.0f
+
+@class GameLayer;
+class HeroContactListener;
 
 @interface Hero : CCNode {
-    CCSprite *_sprite;
-    b2World *world;
-    b2Body *body;
-    float radius;
-	BOOL awake;
+	GameLayer *_game;
+	CCSprite *_sprite;
+	b2Body *_body;
+	float _radius;
+	BOOL _awake;
+	BOOL _flying;
+	BOOL _diving;
+	HeroContactListener *_contactListener;
+	int _nPerfectSlides;
 }
+@property (nonatomic, retain) GameLayer *game;
 @property (nonatomic, retain) CCSprite *sprite;
 @property (readonly) BOOL awake;
+@property (nonatomic) BOOL diving;
 
-+ (id) heroWithWorld:(b2World*)w;
-- (id) initWithWorld:(b2World*)w;
++ (id) heroWithGame:(GameLayer*)game;
+- (id) initWithGame:(GameLayer*)game;
 
+- (void) reset;
 - (void) sleep;
 - (void) wake;
-- (void) dive;
-- (void) limitVelocity;
-- (void) updateNodePosition;
-- (BOOL) isTouchingGround;
-- (BOOL) isTakeoffSpeed;
-- (void) reset;
+- (void) updatePhysics;
+- (void) updateNode;
+
+- (void) landed;
+- (void) tookOff;
+- (void) hit;
 
 @end

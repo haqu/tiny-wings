@@ -57,6 +57,7 @@
 		4D883A4213AE1DD300E1145A /* b2Rope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D883A1413AE1DD300E1145A /* b2Rope.cpp */; };
 		4D883A8913AE24B900E1145A /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4D883A8813AE24B900E1145A /* GLES-Render.mm */; };
 		4D8B2D8113B05E6B003BA385 /* Sky.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D8B2D8013B05E6B003BA385 /* Sky.m */; };
+		4D8D9FDF13D686FA00098A3E /* HeroContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4D8D9FDE13D686F900098A3E /* HeroContactListener.mm */; };
 		4DB4288113A5FAC300250C22 /* hero.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DB4287F13A5FAC300250C22 /* hero.png */; };
 		4DB4288213A5FAC300250C22 /* noise.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DB4288013A5FAC300250C22 /* noise.png */; };
 		4DF5F31013B2292300CC2632 /* resetButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DF5F30F13B2292300CC2632 /* resetButton.png */; };
@@ -285,6 +286,8 @@
 		4D883A8813AE24B900E1145A /* GLES-Render.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "GLES-Render.mm"; sourceTree = "<group>"; };
 		4D8B2D7F13B05E6B003BA385 /* Sky.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sky.h; sourceTree = "<group>"; };
 		4D8B2D8013B05E6B003BA385 /* Sky.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sky.m; sourceTree = "<group>"; };
+		4D8D9FDD13D686F900098A3E /* HeroContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeroContactListener.h; sourceTree = "<group>"; };
+		4D8D9FDE13D686F900098A3E /* HeroContactListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HeroContactListener.mm; sourceTree = "<group>"; };
 		4DB4287F13A5FAC300250C22 /* hero.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hero.png; path = Resources/hero.png; sourceTree = "<group>"; };
 		4DB4288013A5FAC300250C22 /* noise.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noise.png; path = Resources/noise.png; sourceTree = "<group>"; };
 		4DF5F30F13B2292300CC2632 /* resetButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = resetButton.png; path = Resources/resetButton.png; sourceTree = "<group>"; };
@@ -756,6 +759,8 @@
 				4DFE49C4139F507200973A5D /* Terrain.mm */,
 				4D4B4C5C13A37B2900A6341D /* Hero.h */,
 				4D4B4C5D13A37B2900A6341D /* Hero.mm */,
+				4D8D9FDD13D686F900098A3E /* HeroContactListener.h */,
+				4D8D9FDE13D686F900098A3E /* HeroContactListener.mm */,
 				4D883A8713AE24B800E1145A /* GLES-Render.h */,
 				4D883A8813AE24B900E1145A /* GLES-Render.mm */,
 				4DFE49C6139F6A7900973A5D /* README.md */,
@@ -1339,6 +1344,7 @@
 				4D883A4213AE1DD300E1145A /* b2Rope.cpp in Sources */,
 				4D883A8913AE24B900E1145A /* GLES-Render.mm in Sources */,
 				4D8B2D8113B05E6B003BA385 /* Sky.m in Sources */,
+				4D8D9FDF13D686FA00098A3E /* HeroContactListener.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
