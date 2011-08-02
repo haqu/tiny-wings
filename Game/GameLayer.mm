@@ -159,7 +159,7 @@
 #ifdef DRAW_BOX2D_WORLD
 	
 	_render = new GLESDebugDraw(PTM_RATIO);
-	world->SetDebugDraw(_render);
+	_world->SetDebugDraw(_render);
 	
 	uint32 flags = 0;
 	flags += b2Draw::e_shapeBit;

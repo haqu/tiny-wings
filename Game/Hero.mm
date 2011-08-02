@@ -141,7 +141,7 @@
 	float angle = atan2f(vel.y, vel.x);
 
 #ifdef DRAW_BOX2D_WORLD
-	body->SetTransform(body->GetPosition(), angle);
+	_body->SetTransform(_body->GetPosition(), angle);
 #else
 	self.rotation = -1 * CC_RADIANS_TO_DEGREES(angle);
 #endif
