@@ -184,6 +184,9 @@
 		64B3D04813C5E413009A9A3E /* GOODDP__.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 64B3D04413C5E413009A9A3E /* GOODDP__.TTF */; };
 		64B3D04C13C5E6D9009A9A3E /* good_dog_plain_32.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 64B3D04A13C5E6D9009A9A3E /* good_dog_plain_32.fnt */; };
 		64B3D04D13C5E6D9009A9A3E /* good_dog_plain_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 64B3D04B13C5E6D9009A9A3E /* good_dog_plain_32.png */; };
+		64F5A72F13ED7A89000F4F6F /* hero-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 64F5A72C13ED7A89000F4F6F /* hero-hd.png */; };
+		64F5A73013ED7A89000F4F6F /* noise-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 64F5A72D13ED7A89000F4F6F /* noise-hd.png */; };
+		64F5A73113ED7A89000F4F6F /* resetButton-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 64F5A72E13ED7A89000F4F6F /* resetButton-hd.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -535,6 +538,9 @@
 		64B3D04413C5E413009A9A3E /* GOODDP__.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = GOODDP__.TTF; sourceTree = "<group>"; };
 		64B3D04A13C5E6D9009A9A3E /* good_dog_plain_32.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = good_dog_plain_32.fnt; sourceTree = "<group>"; };
 		64B3D04B13C5E6D9009A9A3E /* good_dog_plain_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = good_dog_plain_32.png; sourceTree = "<group>"; };
+		64F5A72C13ED7A89000F4F6F /* hero-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hero-hd.png"; path = "Resources/hero-hd.png"; sourceTree = "<group>"; };
+		64F5A72D13ED7A89000F4F6F /* noise-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noise-hd.png"; path = "Resources/noise-hd.png"; sourceTree = "<group>"; };
+		64F5A72E13ED7A89000F4F6F /* resetButton-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "resetButton-hd.png"; path = "Resources/resetButton-hd.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -777,6 +783,9 @@
 			children = (
 				64B3D04013C5E413009A9A3E /* good_dog */,
 				4DF5F30F13B2292300CC2632 /* resetButton.png */,
+				64F5A72C13ED7A89000F4F6F /* hero-hd.png */,
+				64F5A72D13ED7A89000F4F6F /* noise-hd.png */,
+				64F5A72E13ED7A89000F4F6F /* resetButton-hd.png */,
 				4DB4287F13A5FAC300250C22 /* hero.png */,
 				4DB4288013A5FAC300250C22 /* noise.png */,
 				4DFD2EC0139CCCA0001E1480 /* Default.png */,
@@ -1190,6 +1199,9 @@
 				64B3D04813C5E413009A9A3E /* GOODDP__.TTF in Resources */,
 				64B3D04C13C5E6D9009A9A3E /* good_dog_plain_32.fnt in Resources */,
 				64B3D04D13C5E6D9009A9A3E /* good_dog_plain_32.png in Resources */,
+				64F5A72F13ED7A89000F4F6F /* hero-hd.png in Resources */,
+				64F5A73013ED7A89000F4F6F /* noise-hd.png in Resources */,
+				64F5A73113ED7A89000F4F6F /* resetButton-hd.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
