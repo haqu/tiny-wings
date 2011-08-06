@@ -1144,6 +1144,9 @@
 /* Begin PBXProject section */
 		4DFD2EA1139CCCA0001E1480 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = 4DFD2EA4139CCCA0001E1480 /* Build configuration list for PBXProject "Game" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
