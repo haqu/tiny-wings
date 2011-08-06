@@ -83,14 +83,14 @@
 	ccColor4F colors[4];
 	int nVertices = 0;
 	
-	vertices[nVertices] = ccp(0, 0);
+	vertices[nVertices] = ccpR(0, 0);
 	colors[nVertices++] = (ccColor4F){1, 1, 1, 0};
-	vertices[nVertices] = ccp(textureSize, 0);
+	vertices[nVertices] = ccpR(textureSize, 0);
 	colors[nVertices++] = (ccColor4F){1, 1, 1, 0};
 	
-	vertices[nVertices] = ccp(0, textureSize);
+	vertices[nVertices] = ccpR(0, textureSize);
 	colors[nVertices++] = (ccColor4F){1, 1, 1, gradientAlpha};
-	vertices[nVertices] = ccp(textureSize, textureSize);
+	vertices[nVertices] = ccpR(textureSize, textureSize);
 	colors[nVertices++] = (ccColor4F){1, 1, 1, gradientAlpha};
 	
 	glVertexPointer(2, GL_FLOAT, 0, vertices);

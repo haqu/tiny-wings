@@ -15,6 +15,8 @@
 #define kMaxBorderVertices 5000
 #define kHillSegmentWidth 15
 
+#define ccpR(x,y) ccp( (CC_CONTENT_SCALE_FACTOR()*(x)), (CC_CONTENT_SCALE_FACTOR()*(y)) )
+
 @interface Terrain : CCNode {
 	CGPoint hillKeyPoints[kMaxHillKeyPoints];
 	int nHillKeyPoints;

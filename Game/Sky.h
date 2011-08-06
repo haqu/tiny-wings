@@ -9,6 +9,8 @@
 
 #import "cocos2d.h"
 
+#define ccpR(x,y) ccp( (CC_CONTENT_SCALE_FACTOR()*(x)), (CC_CONTENT_SCALE_FACTOR()*(y)) )
+
 @interface Sky : CCNode {
 	CCSprite *_sprite;
 	float _offsetX;
