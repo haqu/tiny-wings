@@ -187,6 +187,7 @@
 		64F5A72F13ED7A89000F4F6F /* hero-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 64F5A72C13ED7A89000F4F6F /* hero-hd.png */; };
 		64F5A73013ED7A89000F4F6F /* noise-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 64F5A72D13ED7A89000F4F6F /* noise-hd.png */; };
 		64F5A73113ED7A89000F4F6F /* resetButton-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 64F5A72E13ED7A89000F4F6F /* resetButton-hd.png */; };
+		64FD2F2C13F405C900091B52 /* Leaf.png in Resources */ = {isa = PBXBuildFile; fileRef = 64FD2F2B13F405C900091B52 /* Leaf.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -541,6 +542,7 @@
 		64F5A72C13ED7A89000F4F6F /* hero-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hero-hd.png"; path = "Resources/hero-hd.png"; sourceTree = "<group>"; };
 		64F5A72D13ED7A89000F4F6F /* noise-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noise-hd.png"; path = "Resources/noise-hd.png"; sourceTree = "<group>"; };
 		64F5A72E13ED7A89000F4F6F /* resetButton-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "resetButton-hd.png"; path = "Resources/resetButton-hd.png"; sourceTree = "<group>"; };
+		64FD2F2B13F405C900091B52 /* Leaf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Leaf.png; path = ../../../Desktop/Leaf.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -781,6 +783,7 @@
 		4DFD2EBF139CCCA0001E1480 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				64FD2F2B13F405C900091B52 /* Leaf.png */,
 				64B3D04013C5E413009A9A3E /* good_dog */,
 				4DF5F30F13B2292300CC2632 /* resetButton.png */,
 				64F5A72C13ED7A89000F4F6F /* hero-hd.png */,
@@ -1202,6 +1205,7 @@
 				64F5A72F13ED7A89000F4F6F /* hero-hd.png in Resources */,
 				64F5A73013ED7A89000F4F6F /* noise-hd.png in Resources */,
 				64F5A73113ED7A89000F4F6F /* resetButton-hd.png in Resources */,
+				64FD2F2C13F405C900091B52 /* Leaf.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
