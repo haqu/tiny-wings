@@ -1,0 +1,7 @@
+Trees/rocks on the curve of the hill arranged randomly
+
+Parallax scrolling background (based on same heights/texture as the island)
+
+Slope at the end of the map
+
+Speed coins
