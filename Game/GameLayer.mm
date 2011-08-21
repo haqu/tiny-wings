@@ -104,7 +104,6 @@
         particle.position=ccp(468.00,208.00);
         particle.posVar=ccp(20.00,200.00);
         
-        /////*** Assignment PARENT NODE!!!  ***/////
         [self addChild:particle z:kParticlesLevel];
 		
 		[self scheduleUpdate];
@@ -237,6 +236,7 @@
 					  [CCCallFuncND actionWithTarget:label selector:@selector(removeFromParentAndCleanup:) data:(void*)YES],
 					  nil]];
 	[self addChild:label z:kGUILevel];
+    [_hero startFrenzy];
 }
 
 - (void) showHit {
@@ -249,6 +249,7 @@
 					  [CCCallFuncND actionWithTarget:label selector:@selector(removeFromParentAndCleanup:) data:(void*)YES],
 					  nil]];
 	[self addChild:label z:kGUILevel];
+    [_hero stopFrenzy];
 }
 
 @end

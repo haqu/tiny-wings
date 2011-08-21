@@ -26,6 +26,8 @@ class HeroContactListener;
 	BOOL _diving;
 	HeroContactListener *_contactListener;
 	int _nPerfectSlides;
+    BOOL _frenzy;
+    CCParticleSystem *_frenzyParticle;
 }
 @property (nonatomic, retain) GameLayer *game;
 @property (nonatomic, retain) CCSprite *sprite;
@@ -44,5 +46,8 @@ class HeroContactListener;
 - (void) landed;
 - (void) tookOff;
 - (void) hit;
+
+- (void) startFrenzy;
+- (void) stopFrenzy;
 
 @end
