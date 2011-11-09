@@ -11,6 +11,11 @@
 #import "Box2D.h"
 #import "GLES-Render.h"
 
+#define kSkyLevel 0
+#define kParticlesLevel 2
+#define kWorldLevel 5
+#define kGUILevel 10
+
 @class Sky;
 @class Terrain;
 @class Hero;

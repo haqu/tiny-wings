@@ -84,8 +84,10 @@
 }
 
 - (void) reset {
+    [self stopFrenzy];
 	_flying = NO;
 	_diving = NO;
+    
 	_nPerfectSlides = 0;
 	if (_body) {
 		_game.world->DestroyBody(_body);
@@ -141,9 +143,11 @@
 	float angle = atan2f(vel.y, vel.x);
 
 #ifdef DRAW_BOX2D_WORLD
-	body->SetTransform(body->GetPosition(), angle);
+	_body->SetTransform(_body->GetPosition(), angle);
 #else
 	self.rotation = -1 * CC_RADIANS_TO_DEGREES(angle);
+    if( _frenzyParticle )
+        _frenzyParticle.rotation = 1 * CC_RADIANS_TO_DEGREES(angle);
 #endif
 	
 	// collision detection
@@ -198,6 +202,108 @@
 		_diving = diving;
 		// TODO: change sprite image here
 	}
+}
+
+- (void) addFrenzyTrail {
+    _frenzyParticle=[[[CCParticleSystemQuad alloc] initWithTotalParticles:400] autorelease];
+    
+    CCTexture2D *texture=[[CCTextureCache sharedTextureCache] addImage:@"star.png"];
+    _frenzyParticle.texture=texture;
+    _frenzyParticle.emissionRate=20;
+    _frenzyParticle.angle=180.0;
+    _frenzyParticle.angleVar=15.0;
+    ccBlendFunc blendFunc={GL_SRC_ALPHA,GL_SRC_ALPHA_SATURATE};//GL_ONE};
+    _frenzyParticle.blendFunc=blendFunc;
+    _frenzyParticle.duration=-1.00;
+    _frenzyParticle.emitterMode=kCCParticleModeGravity;
+    ccColor4F startColor={1.00,0.13,0.12,1.00};
+    _frenzyParticle.startColor=startColor;
+    ccColor4F startColorVar={0.1,0.1,0.1,0};
+    _frenzyParticle.startColorVar=startColorVar;
+    ccColor4F endColor={0,0,0.96,1.00};
+    _frenzyParticle.endColor=endColor;
+    ccColor4F endColorVar={0.0,0.0,0.0,0};
+    _frenzyParticle.endColorVar=endColorVar;
+    _frenzyParticle.startSize=5.0;
+    _frenzyParticle.startSizeVar=1.00;
+    _frenzyParticle.endSize=10.00;
+    _frenzyParticle.endSizeVar=5.00;
+    _frenzyParticle.gravity=ccp(0.00,-5.00);
+    _frenzyParticle.radialAccel=0.00;
+    _frenzyParticle.radialAccelVar=0.00;
+    _frenzyParticle.speed=200;
+    _frenzyParticle.speedVar=20;
+    _frenzyParticle.tangentialAccel= 0;
+    _frenzyParticle.tangentialAccelVar= 0;
+    _frenzyParticle.totalParticles=200;
+    _frenzyParticle.life=1.0;
+    _frenzyParticle.lifeVar=1.00;
+    _frenzyParticle.startSpin=30.00;
+    _frenzyParticle.startSpinVar=20.00;
+    _frenzyParticle.endSpin=0.00;
+    _frenzyParticle.endSpinVar=60.00;
+    _frenzyParticle.position=ccp(-20,0);
+    _frenzyParticle.posVar=ccp(-15,3.00);
+    
+    [self addChild:_frenzyParticle];
+}
+
+- (void) addFrenzyExplosion {
+    CCParticleSystem *explosion=[[[CCParticleSystemQuad alloc] initWithTotalParticles:100] autorelease];
+
+    CCTexture2D *texture=[[CCTextureCache sharedTextureCache] addImage:@"star.png"];
+    explosion.texture=texture;
+    explosion.emissionRate=-1;
+    explosion.angle=90.0;
+    explosion.angleVar=360.0;
+    ccBlendFunc blendFunc={GL_ONE,GL_ONE_MINUS_SRC_ALPHA};
+    explosion.blendFunc=blendFunc;
+    explosion.duration=0.01;
+    explosion.emitterMode=kCCParticleModeGravity;
+    ccColor4F startColor={0.00,0.30,0.86,1.00};
+    explosion.startColor=startColor;
+    ccColor4F startColorVar={0.00,0.00,0.00,0.00};
+    explosion.startColorVar=startColorVar;
+    ccColor4F endColor={1.00,0.00,0.08,1.00};
+    explosion.endColor=endColor;
+    ccColor4F endColorVar={0.00,0.00,0.00,0.00};
+    explosion.endColorVar=endColorVar;
+    explosion.startSize=7.00;
+    explosion.startSizeVar=0.00;
+    explosion.endSize=10.00;
+    explosion.endSizeVar=0.00;
+    explosion.gravity=ccp(0,-10);
+    explosion.radialAccel=0.00;
+    explosion.radialAccelVar=10.00;
+    explosion.speed=250;
+    explosion.speedVar= 0;
+    explosion.tangentialAccel= 0;
+    explosion.tangentialAccelVar=10;
+    explosion.totalParticles=100;
+    explosion.life=0;
+    explosion.lifeVar=1;
+    explosion.startSpin=0.00;
+    explosion.startSpinVar=0.00;
+    explosion.endSpin=0.00;
+    explosion.endSpinVar=0.00;
+    explosion.position=ccp(0,0);
+    explosion.posVar=ccp(0.00,0.00);
+    
+    [self addChild:explosion];
+}
+- (void) startFrenzy {
+    _frenzy = YES;
+    [self addFrenzyExplosion];
+    [self addFrenzyTrail];
+}
+
+- (void) stopFrenzy {
+    _frenzy = NO;
+    if( !_frenzyParticle )
+        return;
+        
+    [_frenzyParticle stopSystem];
+    [self removeChild:_frenzyParticle cleanup:_frenzy];
 }
 
 @end

@@ -34,7 +34,6 @@
 }
 
 - (id) initWithWorld:(b2World*)w {
-	
 	if ((self = [super init])) {
 		
 		world = w;
@@ -44,7 +43,7 @@
 		screenH = size.height;
 		
 #ifndef DRAW_BOX2D_WORLD
-		textureSize = 512;
+		textureSize = 512*CC_CONTENT_SCALE_FACTOR();
 		self.stripes = [self generateStripesSprite];
 #endif
 		
@@ -78,6 +77,9 @@
 	return sprite;
 }
 
+#pragma mark -
+#pragma mark Drawing the terrain textures
+// The texture itself is completely flat and simple.  Warping comes when we map the texture onto the "curved" polygon
 - (CCTexture2D*) generateStripesTexture {
 	
 	CCRenderTexture *rt = [CCRenderTexture renderTextureWithWidth:textureSize height:textureSize];
@@ -99,13 +101,14 @@
 	
 	// random even number of stripes
 	int nStripes = arc4random()%(maxStripes-minStripes)+minStripes;
+//    nStripes=;
 	if (nStripes%2) {
 		nStripes++;
 	}
 //	NSLog(@"nStripes = %d", nStripes);
 	
-	CGPoint *vertices = (CGPoint*)malloc(sizeof(CGPoint)*nStripes*6);
-	ccColor4F *colors = (ccColor4F*)malloc(sizeof(ccColor4F)*nStripes*6);
+	CGPoint *vertices = (CGPoint*)malloc(sizeof(CGPoint)     * nStripes*6);
+	ccColor4F *colors = (ccColor4F*)malloc(sizeof(ccColor4F) * nStripes*6);
 	int nVertices = 0;
 	
 	float x1, x2, y1, y2, dx, dy;
@@ -130,12 +133,12 @@
 				for (int k=0; k<6; k++) {
 					colors[nVertices+k] = c;
 				}
-				vertices[nVertices++] = ccp(x1+j*textureSize, y1);
-				vertices[nVertices++] = ccp(x1+j*textureSize+dx, y1);
-				vertices[nVertices++] = ccp(x2+j*textureSize, y2);
+				vertices[nVertices++] = ccpR(x1+j*textureSize, y1);
+				vertices[nVertices++] = ccpR(x1+j*textureSize+dx, y1);
+				vertices[nVertices++] = ccpR(x2+j*textureSize, y2);
 				vertices[nVertices++] = vertices[nVertices-2];
 				vertices[nVertices++] = vertices[nVertices-2];
-				vertices[nVertices++] = ccp(x2+j*textureSize+dx, y2);
+				vertices[nVertices++] = ccpR(x2+j*textureSize+dx, y2);
 			}
 			x1 += dx;
 			x2 += dx;
@@ -159,18 +162,18 @@
 			for (int k=0; k<6; k++) {
 				colors[nVertices+k] = c;
 			}
-			vertices[nVertices++] = ccp(x1, y1);
-			vertices[nVertices++] = ccp(x2, y2);
-			vertices[nVertices++] = ccp(x1, y1+dy);
+			vertices[nVertices++] = ccpR(x1, y1);
+			vertices[nVertices++] = ccpR(x2, y2);
+			vertices[nVertices++] = ccpR(x1, y1+dy);
 			vertices[nVertices++] = vertices[nVertices-2];
 			vertices[nVertices++] = vertices[nVertices-2];
-			vertices[nVertices++] = ccp(x2, y2+dy);
+			vertices[nVertices++] = ccpR(x2, y2+dy);
 			y1 += dy;
 			y2 += dy;
 		}
 		
 	}
-	
+    
 	glDisable(GL_TEXTURE_2D);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	
@@ -193,20 +196,20 @@
 	ccColor4F colors[6];
 	int nVertices = 0;
 	
-	vertices[nVertices] = ccp(0, 0);
+	vertices[nVertices] = ccpR(0, 0);
 	colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
-	vertices[nVertices] = ccp(textureSize, 0);
+	vertices[nVertices] = ccpR(textureSize, 0);
 	colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
 	
-	vertices[nVertices] = ccp(0, gradientWidth);
+	vertices[nVertices] = ccpR(0, gradientWidth);
 	colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
-	vertices[nVertices] = ccp(textureSize, gradientWidth);
+	vertices[nVertices] = ccpR(textureSize, gradientWidth);
 	colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
 	
 	if (gradientWidth < textureSize) {
-		vertices[nVertices] = ccp(0, textureSize);
+		vertices[nVertices] = ccpR(0, textureSize);
 		colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
-		vertices[nVertices] = ccp(textureSize, textureSize);
+		vertices[nVertices] = ccpR(textureSize, textureSize);
 		colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
 	}
 	
@@ -224,14 +227,14 @@
 	ccColor4F colors[4];
 	int nVertices = 0;
 	
-	vertices[nVertices] = ccp(0, 0);
+	vertices[nVertices] = ccpR(0, 0);
 	colors[nVertices++] = (ccColor4F){1, 1, 0.5f, highlightAlpha}; // yellow
-	vertices[nVertices] = ccp(textureSize, 0);
+	vertices[nVertices] = ccpR(textureSize, 0);
 	colors[nVertices++] = (ccColor4F){1, 1, 0.5f, highlightAlpha};
 	
-	vertices[nVertices] = ccp(0, highlightWidth);
+	vertices[nVertices] = ccpR(0, highlightWidth);
 	colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
-	vertices[nVertices] = ccp(textureSize, highlightWidth);
+	vertices[nVertices] = ccpR(textureSize, highlightWidth);
 	colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
 	
 	glVertexPointer(2, GL_FLOAT, 0, vertices);
@@ -243,13 +246,13 @@
 - (void) renderTopBorder {
 	
 	float borderAlpha = 0.5f;
-	float borderWidth = 2.0f;
+	float borderWidth = CC_CONTENT_SCALE_FACTOR() * 2.0f;
 	
 	CGPoint vertices[2];
 	int nVertices = 0;
 	
-	vertices[nVertices++] = ccp(0, borderWidth/2);
-	vertices[nVertices++] = ccp(textureSize, borderWidth/2);
+	vertices[nVertices++] = ccpR(0, borderWidth/2);
+	vertices[nVertices++] = ccpR(textureSize, borderWidth/2);
 	
 	glDisableClientState(GL_COLOR_ARRAY);
 	
@@ -274,6 +277,10 @@
 	[s visit]; // more contrast
 }
 
+
+#pragma mark -
+#pragma mark Build the terrain geometry
+
 - (void) generateHillKeyPoints {
 
 	nHillKeyPoints = 0;
@@ -290,7 +297,7 @@
 	hillKeyPoints[nHillKeyPoints++] = ccp(x, y);
 	
 	int minDX = 160, rangeDX = 80;
-	int minDY = 60,  rangeDY = 60;
+    int minDY = 60,  rangeDY = 60;    
 	float sign = -1; // +1 - going up, -1 - going  down
 	float maxHeight = screenH;
 	float minHeight = 20;
@@ -362,6 +369,7 @@
 	body->CreateFixture(&shape, 0);
 }
 
+// If the visible window has changed, draw the intervening hill vertices, replacing the old ones.
 - (void) resetHillVertices {
 
 #ifdef DRAW_BOX2D_WORLD
@@ -420,10 +428,10 @@
 				pt1.x = p0.x + j*dx;
 				pt1.y = ymid + ampl * cosf(da*j);
 				for (int k=0; k<vSegments+1; k++) {
-					hillVertices[nHillVertices] = ccp(pt0.x, pt0.y-(float)textureSize/vSegments*k);
-					hillTexCoords[nHillVertices++] = ccp(pt0.x/(float)textureSize, (float)(k)/vSegments);
-					hillVertices[nHillVertices] = ccp(pt1.x, pt1.y-(float)textureSize/vSegments*k);
-					hillTexCoords[nHillVertices++] = ccp(pt1.x/(float)textureSize, (float)(k)/vSegments);
+					hillVertices[nHillVertices]    = ccpR(pt0.x,                    pt0.y-(float)textureSize/vSegments*k);
+					hillTexCoords[nHillVertices++] = ccpR(pt0.x/(float)textureSize, (float)(k)/vSegments);
+					hillVertices[nHillVertices]    = ccpR(pt1.x,                    pt1.y-(float)textureSize/vSegments*k);
+					hillTexCoords[nHillVertices++] = ccpR(pt1.x/(float)textureSize, (float)(k)/vSegments);
 				}
 				pt0 = pt1;
 			}
@@ -496,7 +504,6 @@
 }
 
 - (void) reset {
-	
 #ifndef DRAW_BOX2D_WORLD
 	self.stripes = [self generateStripesSprite];
 #endif
