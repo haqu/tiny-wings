@@ -32,7 +32,7 @@ void HeroContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldMani
 		b2Vec2 vel = b->GetLinearVelocity();
 		float va = atan2f(vel.y, vel.x);
 		float na = atan2f(wm.normal.y, wm.normal.x);
-//		NSLog(@"na = %.3f",na);
+//		CCLOG(@"na = %.3f",na);
 		if (na - va > kMaxAngleDiff) {
 			[_hero hit];
 		}

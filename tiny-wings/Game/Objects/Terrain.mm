@@ -103,7 +103,7 @@
 	if (nStripes%2) {
 		nStripes++;
 	}
-//	NSLog(@"nStripes = %d", nStripes);
+//	CCLOG(@"nStripes = %d", nStripes);
 	
 	ccVertex2F *vertices = (ccVertex2F*)malloc(sizeof(ccVertex2F)*nStripes*6);
 	ccColor4F *colors = (ccColor4F*)malloc(sizeof(ccColor4F)*nStripes*6);
@@ -340,7 +340,7 @@
 		
 		p0 = p1;
 	}
-//	NSLog(@"nBorderVertices = %d", nBorderVertices);
+//	CCLOG(@"nBorderVertices = %d", nBorderVertices);
 }
 
 - (void) createBox2DBody {
@@ -394,13 +394,13 @@
 	
 	if (prevFromKeyPointI != fromKeyPointI || prevToKeyPointI != toKeyPointI) {
 		
-//		NSLog(@"building hillVertices array for the visible area");
+//		CCLOG(@"building hillVertices array for the visible area");
 
-//		NSLog(@"leftSideX = %f", leftSideX);
-//		NSLog(@"rightSideX = %f", rightSideX);
+//		CCLOG(@"leftSideX = %f", leftSideX);
+//		CCLOG(@"rightSideX = %f", rightSideX);
 		
-//		NSLog(@"fromKeyPointI = %d (x = %f)",fromKeyPointI,hillKeyPoints[fromKeyPointI].x);
-//		NSLog(@"toKeyPointI = %d (x = %f)",toKeyPointI,hillKeyPoints[toKeyPointI].x);
+//		CCLOG(@"fromKeyPointI = %d (x = %f)",fromKeyPointI,hillKeyPoints[fromKeyPointI].x);
+//		CCLOG(@"toKeyPointI = %d (x = %f)",toKeyPointI,hillKeyPoints[toKeyPointI].x);
 		
 		// vertices for visible area
 		nHillVertices = 0;
@@ -432,7 +432,7 @@
 			p0 = p1;
 		}
 		
-//		NSLog(@"nHillVertices = %d", nHillVertices);
+//		CCLOG(@"nHillVertices = %d", nHillVertices);
 		
 		prevFromKeyPointI = fromKeyPointI;
 		prevToKeyPointI = toKeyPointI;

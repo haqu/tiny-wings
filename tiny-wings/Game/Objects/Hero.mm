@@ -166,17 +166,17 @@
 }
 
 - (void) landed {
-//	NSLog(@"landed");
+//	CCLOG(@"landed");
 	_flying = NO;
 }
 
 - (void) tookOff {
-//	NSLog(@"tookOff");
+//	CCLOG(@"tookOff");
 	_flying = YES;
 	b2Vec2 vel = _body->GetLinearVelocity();
-//	NSLog(@"vel.y = %f",vel.y);
+//	CCLOG(@"vel.y = %f",vel.y);
 	if (vel.y > kPerfectTakeOffVelocityY) {
-//		NSLog(@"perfect slide");
+//		CCLOG(@"perfect slide");
 		_nPerfectSlides++;
 		if (_nPerfectSlides > 1) {
 			if (_nPerfectSlides == 4) {
@@ -189,7 +189,7 @@
 }
 
 - (void) hit {
-//	NSLog(@"hit");
+//	CCLOG(@"hit");
 	_nPerfectSlides = 0;
 	[_game showHit];
 }
