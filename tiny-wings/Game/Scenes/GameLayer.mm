@@ -15,6 +15,8 @@
 
 @interface GameLayer()
 - (void) createBox2DWorld;
+- (BOOL) touchBeganAt:(CGPoint)location;
+- (BOOL) touchEndedAt:(CGPoint)location;
 - (void) reset;
 @end
 
@@ -63,7 +65,11 @@
 		float padding = 8;
 		_resetButton.position = ccp(_screenW-size.width/2-padding, _screenH-size.height/2-padding);
 		
+#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
 		self.isTouchEnabled = YES;
+#else
+		self.isMouseEnabled = YES;
+#endif
 		
 		[self scheduleUpdate];
 	}
@@ -90,20 +96,45 @@
 	[super dealloc];
 }
 
+#pragma mark touches
+
+#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+
 - (void) registerWithTouchDispatcher {
 	[[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
 }
 
-- (void) reset {
-    [_terrain reset];
-    [_hero reset];
-}
-
 - (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-
 	CGPoint location = [touch locationInView:[touch view]];
 	location = [[CCDirector sharedDirector] convertToGL:location];
-	
+	return [self touchBeganAt:location];;
+}
+
+- (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
+	CGPoint location = [touch locationInView:[touch view]];
+	location = [[CCDirector sharedDirector] convertToGL:location];
+	return [self touchEndedAt:location];;
+}
+
+#else
+
+- (void) registerWithTouchDispatcher {
+	[[CCEventDispatcher sharedDispatcher] addMouseDelegate:self priority:0];
+}
+
+- (BOOL)ccMouseDown:(NSEvent *)event {
+	CGPoint location = [[CCDirector sharedDirector] convertEventToGL:event];
+	return [self touchBeganAt:location];
+}
+
+- (BOOL)ccMouseUp:(NSEvent *)event {
+	CGPoint location = [[CCDirector sharedDirector] convertEventToGL:event];
+	return [self touchEndedAt:location];
+}
+
+#endif
+
+- (BOOL) touchBeganAt:(CGPoint)location {
 	CGPoint pos = _resetButton.position;
 	CGSize size = _resetButton.contentSize;
 	float padding = 8;
@@ -115,12 +146,19 @@
 	} else {
 		_hero.diving = YES;
 	}
-	
 	return YES;
 }
 
-- (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
+- (BOOL) touchEndedAt:(CGPoint)location {
 	_hero.diving = NO;
+	return YES;
+}
+
+#pragma mark methods
+
+- (void) reset {
+    [_terrain reset];
+    [_hero reset];
 }
 
 - (void) update:(ccTime)dt {
