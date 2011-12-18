@@ -63,17 +63,25 @@
 
 - (void) createBox2DBody {
 
-	CGPoint startPosition = ccp(0, _game.screenH/2+_radius);
-	
 	b2BodyDef bd;
 	bd.type = b2_dynamicBody;
 	bd.linearDamping = 0.05f;
 	bd.fixedRotation = true;
-	bd.position.Set(startPosition.x/PTM_RATIO, startPosition.y/PTM_RATIO);
+
+	// start position
+	CGPoint p = ccp(0, _game.screenH/2+_radius);
+	p.x /= PTM_RATIO;
+	p.y /= PTM_RATIO;
+	
+	// adjust body position for retina
+	p.x *= CC_CONTENT_SCALE_FACTOR();
+	p.y *= CC_CONTENT_SCALE_FACTOR();
+	
+	bd.position.Set(p.x, p.y);
 	_body = _game.world->CreateBody(&bd);
 	
 	b2CircleShape shape;
-	shape.m_radius = _radius/PTM_RATIO;
+	shape.m_radius = _radius/PTM_RATIO*CC_CONTENT_SCALE_FACTOR();
 	
 	b2FixtureDef fd;
 	fd.shape = &shape;
@@ -133,16 +141,21 @@
 }
 
 - (void) updateNode {
-	float x = _body->GetPosition().x*PTM_RATIO;
-	float y = _body->GetPosition().y*PTM_RATIO;
-
+	CGPoint p = ccp(_body->GetPosition().x, _body->GetPosition().y);
+	p.x *= PTM_RATIO;
+	p.y *= PTM_RATIO;
+	
+	// adjust position for retina
+	p.x /= CC_CONTENT_SCALE_FACTOR();
+	p.y /= CC_CONTENT_SCALE_FACTOR();
+	
 	// CCNode position and rotation
-	self.position = ccp(x, y);
+	self.position = p;
 	b2Vec2 vel = _body->GetLinearVelocity();
 	float angle = atan2f(vel.y, vel.x);
 
 #ifdef DRAW_BOX2D_WORLD
-	body->SetTransform(body->GetPosition(), angle);
+	_body->SetTransform(_body->GetPosition(), angle);
 #else
 	self.rotation = -1 * CC_RADIANS_TO_DEGREES(angle);
 #endif
@@ -160,7 +173,7 @@
 	}
 	
 	// TEMP: sleep if below the screen
-	if (y < -_radius && _awake) {
+	if (p.y < -_radius && _awake) {
 		[self sleep];
 	}
 }

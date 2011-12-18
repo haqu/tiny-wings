@@ -79,19 +79,25 @@
 	glDisable(GL_TEXTURE_2D);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	
-	CGPoint vertices[4];
+	ccVertex2F vertices[4];
 	ccColor4F colors[4];
 	int nVertices = 0;
 	
-	vertices[nVertices] = ccp(0, 0);
+	vertices[nVertices] = (ccVertex2F){0, 0};
 	colors[nVertices++] = (ccColor4F){1, 1, 1, 0};
-	vertices[nVertices] = ccp(textureSize, 0);
+	vertices[nVertices] = (ccVertex2F){textureSize, 0};
 	colors[nVertices++] = (ccColor4F){1, 1, 1, 0};
 	
-	vertices[nVertices] = ccp(0, textureSize);
+	vertices[nVertices] = (ccVertex2F){0, textureSize};
 	colors[nVertices++] = (ccColor4F){1, 1, 1, gradientAlpha};
-	vertices[nVertices] = ccp(textureSize, textureSize);
+	vertices[nVertices] = (ccVertex2F){textureSize, textureSize};
 	colors[nVertices++] = (ccColor4F){1, 1, 1, gradientAlpha};
+
+	// adjust vertices for retina
+	for (int i=0; i<nVertices; i++) {
+		vertices[i].x *= CC_CONTENT_SCALE_FACTOR();
+		vertices[i].y *= CC_CONTENT_SCALE_FACTOR();
+	}
 	
 	glVertexPointer(2, GL_FLOAT, 0, vertices);
 	glColorPointer(4, GL_FLOAT, 0, colors);
@@ -106,7 +112,7 @@
 	CCSprite *s = [CCSprite spriteWithFile:@"noise.png"];
 	[s setBlendFunc:(ccBlendFunc){GL_DST_COLOR, GL_ZERO}];
 	s.position = ccp(textureSize/2, textureSize/2);
-	s.scale = (float)textureSize/512.0f;
+	s.scale = (float)textureSize/512.0f*CC_CONTENT_SCALE_FACTOR();
 	glColor4f(1,1,1,1);
 	[s visit];
 	

@@ -172,6 +172,12 @@
 		
 	}
 	
+	// adjust vertices for retina
+	for (int i=0; i<nVertices; i++) {
+		vertices[i].x *= CC_CONTENT_SCALE_FACTOR();
+		vertices[i].y *= CC_CONTENT_SCALE_FACTOR();
+	}
+	
 	glDisable(GL_TEXTURE_2D);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	
@@ -211,6 +217,12 @@
 		colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
 	}
 	
+	// adjust vertices for retina
+	for (int i=0; i<nVertices; i++) {
+		vertices[i].x *= CC_CONTENT_SCALE_FACTOR();
+		vertices[i].y *= CC_CONTENT_SCALE_FACTOR();
+	}
+	
 	glVertexPointer(2, GL_FLOAT, 0, vertices);
 	glColorPointer(4, GL_FLOAT, 0, colors);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, (GLsizei)nVertices);
@@ -235,6 +247,12 @@
 	vertices[nVertices] = (ccVertex2F){textureSize, highlightWidth};
 	colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
 	
+	// adjust vertices for retina
+	for (int i=0; i<nVertices; i++) {
+		vertices[i].x *= CC_CONTENT_SCALE_FACTOR();
+		vertices[i].y *= CC_CONTENT_SCALE_FACTOR();
+	}
+	
 	glVertexPointer(2, GL_FLOAT, 0, vertices);
 	glColorPointer(4, GL_FLOAT, 0, colors);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -244,13 +262,19 @@
 - (void) renderTopBorder {
 	
 	float borderAlpha = 0.5f;
-	float borderWidth = 2.0f;
+	float borderWidth = 2.0f*CC_CONTENT_SCALE_FACTOR();
 	
 	ccVertex2F vertices[2];
 	int nVertices = 0;
 	
 	vertices[nVertices++] = (ccVertex2F){0, borderWidth/2};
 	vertices[nVertices++] = (ccVertex2F){textureSize, borderWidth/2};
+	
+	// adjust vertices for retina
+	for (int i=0; i<nVertices; i++) {
+		vertices[i].x *= CC_CONTENT_SCALE_FACTOR();
+//		vertices[i].y *= CC_CONTENT_SCALE_FACTOR();
+	}
 	
 	glDisableClientState(GL_COLOR_ARRAY);
 	
@@ -269,7 +293,7 @@
 	CCSprite *s = [CCSprite spriteWithFile:@"noise.png"];
 	[s setBlendFunc:(ccBlendFunc){GL_DST_COLOR, GL_ZERO}];
 	s.position = ccp(textureSize/2, textureSize/2);
-	s.scale = (float)textureSize/512.0f;
+	s.scale = (float)textureSize/512.0f*CC_CONTENT_SCALE_FACTOR();
 	glColor4f(1, 1, 1, 1);
 	[s visit];
 	[s visit]; // more contrast
@@ -311,6 +335,12 @@
 	x += minDX+rangeDX;
 	y = 0;
 	hillKeyPoints[nHillKeyPoints++] = (ccVertex2F){x, y};
+
+	// adjust vertices for retina
+	for (int i=0; i<nHillKeyPoints; i++) {
+		hillKeyPoints[i].x *= CC_CONTENT_SCALE_FACTOR();
+		hillKeyPoints[i].y *= CC_CONTENT_SCALE_FACTOR();
+	}
 	
 	fromKeyPointI = 0;
 	toKeyPointI = 0;
@@ -340,6 +370,13 @@
 		
 		p0 = p1;
 	}
+
+//	// adjust vertices for retina
+//	for (int i=0; i<nBorderVertices; i++) {
+//		borderVertices[i].x *= CC_CONTENT_SCALE_FACTOR();
+//		borderVertices[i].y *= CC_CONTENT_SCALE_FACTOR();
+//	}
+	
 //	CCLOG(@"nBorderVertices = %d", nBorderVertices);
 }
 
@@ -376,6 +413,10 @@
 	
 	float leftSideX = _offsetX-screenW/8/self.scale;
 	float rightSideX = _offsetX+screenW*7/8/self.scale;
+	
+	// adjust position for retina
+	leftSideX *= CC_CONTENT_SCALE_FACTOR();
+	rightSideX *= CC_CONTENT_SCALE_FACTOR();
 	
 	while (hillKeyPoints[fromKeyPointI+1].x < leftSideX) {
 		fromKeyPointI++;
