@@ -1,26 +1,26 @@
-/*
- *  Tiny Wings Remake
- *  http://github.com/haqu/tiny-wings
- *
- *  Created by Sergey Tikhonov http://haqu.net
- *  Released under the MIT License
- *
- */
+//
+//  Tiny Wings Remake
+//  http://github.com/haqu/tiny-wings
+//
+//  Created by Sergey Tikhonov http://haqu.net
+//  Released under the MIT License
+//
 
-#import "GameLayer.h"
+#import "Game.h"
 #import "Sky.h"
 #import "Terrain.h"
 #import "Hero.h"
 #import "Constants.h"
+#import "Box2DHelper.h"
 
-@interface GameLayer()
+@interface Game()
 - (void) createBox2DWorld;
 - (BOOL) touchBeganAt:(CGPoint)location;
 - (BOOL) touchEndedAt:(CGPoint)location;
 - (void) reset;
 @end
 
-@implementation GameLayer
+@implementation Game
 
 @synthesize screenW = _screenW;
 @synthesize screenH = _screenH;
@@ -32,7 +32,7 @@
 
 + (CCScene*) scene {
 	CCScene *scene = [CCScene node];
-	[scene addChild:[GameLayer node]];
+	[scene addChild:[Game node]];
 	return scene;
 }
 
@@ -197,7 +197,7 @@
 
 #ifdef DRAW_BOX2D_WORLD
 	
-	_render = new GLESDebugDraw(PTM_RATIO);
+	_render = new GLESDebugDraw([Box2DHelper pointsPerMeter]);
 	_world->SetDebugDraw(_render);
 	
 	uint32 flags = 0;

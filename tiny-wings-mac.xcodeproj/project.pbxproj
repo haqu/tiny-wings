@@ -11,7 +11,6 @@
 		4D6FFC71149A3D44009512B8 /* HeroContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4D6FFC68149A3D44009512B8 /* HeroContactListener.mm */; };
 		4D6FFC72149A3D44009512B8 /* Sky.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6FFC6A149A3D44009512B8 /* Sky.m */; };
 		4D6FFC73149A3D44009512B8 /* Terrain.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4D6FFC6C149A3D44009512B8 /* Terrain.mm */; };
-		4D6FFC74149A3D44009512B8 /* GameLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4D6FFC6F149A3D44009512B8 /* GameLayer.mm */; };
 		4D6FFC79149A3D49009512B8 /* hero.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D6FFC76149A3D49009512B8 /* hero.png */; };
 		4D6FFC7A149A3D49009512B8 /* noise.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D6FFC77149A3D49009512B8 /* noise.png */; };
 		4D6FFC7B149A3D49009512B8 /* resetButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D6FFC78149A3D49009512B8 /* resetButton.png */; };
@@ -157,6 +156,8 @@
 		4D6FFE56149A3DFB009512B8 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4D6FFE55149A3DFB009512B8 /* GLES-Render.mm */; };
 		4D6FFE60149A41F8009512B8 /* CDXMacOSXSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6FFE5D149A41F8009512B8 /* CDXMacOSXSupport.m */; };
 		4D6FFE61149A41F8009512B8 /* CDXPropertyModifierAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6FFE5F149A41F8009512B8 /* CDXPropertyModifierAction.m */; };
+		4DA8AEA114A3260600E69F70 /* Game.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4DA8AEA014A3260600E69F70 /* Game.mm */; };
+		4DA8AEA414A3263900E69F70 /* Box2DHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DA8AEA314A3263900E69F70 /* Box2DHelper.m */; };
 		4DE41F95149A0CA800F609E9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DE41F94149A0CA800F609E9 /* QuartzCore.framework */; };
 		4DE41F97149A0CA800F609E9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DE41F96149A0CA800F609E9 /* OpenGL.framework */; };
 		4DE41F99149A0CA800F609E9 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DE41F98149A0CA800F609E9 /* OpenAL.framework */; };
@@ -180,8 +181,6 @@
 		4D6FFC6A149A3D44009512B8 /* Sky.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sky.m; sourceTree = "<group>"; };
 		4D6FFC6B149A3D44009512B8 /* Terrain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Terrain.h; sourceTree = "<group>"; };
 		4D6FFC6C149A3D44009512B8 /* Terrain.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Terrain.mm; sourceTree = "<group>"; };
-		4D6FFC6E149A3D44009512B8 /* GameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLayer.h; sourceTree = "<group>"; };
-		4D6FFC6F149A3D44009512B8 /* GameLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameLayer.mm; sourceTree = "<group>"; };
 		4D6FFC76149A3D49009512B8 /* hero.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hero.png; sourceTree = "<group>"; };
 		4D6FFC77149A3D49009512B8 /* noise.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noise.png; sourceTree = "<group>"; };
 		4D6FFC78149A3D49009512B8 /* resetButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resetButton.png; sourceTree = "<group>"; };
@@ -477,6 +476,10 @@
 		4D6FFE5D149A41F8009512B8 /* CDXMacOSXSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDXMacOSXSupport.m; sourceTree = "<group>"; };
 		4D6FFE5E149A41F8009512B8 /* CDXPropertyModifierAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDXPropertyModifierAction.h; sourceTree = "<group>"; };
 		4D6FFE5F149A41F8009512B8 /* CDXPropertyModifierAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDXPropertyModifierAction.m; sourceTree = "<group>"; };
+		4DA8AE9F14A3260600E69F70 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
+		4DA8AEA014A3260600E69F70 /* Game.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Game.mm; sourceTree = "<group>"; };
+		4DA8AEA214A3263900E69F70 /* Box2DHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2DHelper.h; sourceTree = "<group>"; };
+		4DA8AEA314A3263900E69F70 /* Box2DHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Box2DHelper.m; sourceTree = "<group>"; };
 		4DE41F90149A0CA800F609E9 /* tiny-wings-mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tiny-wings-mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DE41F94149A0CA800F609E9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4DE41F96149A0CA800F609E9 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -513,6 +516,8 @@
 		4D6FFC62149A3D44009512B8 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				4DA8AEA214A3263900E69F70 /* Box2DHelper.h */,
+				4DA8AEA314A3263900E69F70 /* Box2DHelper.m */,
 				4D6FFC63149A3D44009512B8 /* Constants.h */,
 				4D6FFC6D149A3D44009512B8 /* Scenes */,
 				4D6FFC64149A3D44009512B8 /* Objects */,
@@ -539,8 +544,8 @@
 		4D6FFC6D149A3D44009512B8 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				4D6FFC6E149A3D44009512B8 /* GameLayer.h */,
-				4D6FFC6F149A3D44009512B8 /* GameLayer.mm */,
+				4DA8AE9F14A3260600E69F70 /* Game.h */,
+				4DA8AEA014A3260600E69F70 /* Game.mm */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -1170,7 +1175,6 @@
 				4D6FFC71149A3D44009512B8 /* HeroContactListener.mm in Sources */,
 				4D6FFC72149A3D44009512B8 /* Sky.m in Sources */,
 				4D6FFC73149A3D44009512B8 /* Terrain.mm in Sources */,
-				4D6FFC74149A3D44009512B8 /* GameLayer.mm in Sources */,
 				4D6FFDBB149A3D6F009512B8 /* b2BroadPhase.cpp in Sources */,
 				4D6FFDBC149A3D6F009512B8 /* b2CollideCircle.cpp in Sources */,
 				4D6FFDBD149A3D6F009512B8 /* b2CollideEdge.cpp in Sources */,
@@ -1306,6 +1310,8 @@
 				4D6FFE56149A3DFB009512B8 /* GLES-Render.mm in Sources */,
 				4D6FFE60149A41F8009512B8 /* CDXMacOSXSupport.m in Sources */,
 				4D6FFE61149A41F8009512B8 /* CDXPropertyModifierAction.m in Sources */,
+				4DA8AEA114A3260600E69F70 /* Game.mm in Sources */,
+				4DA8AEA414A3263900E69F70 /* Box2DHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,11 +1,10 @@
-/*
- *  Tiny Wings Remake
- *  http://github.com/haqu/tiny-wings
- *
- *  Created by Sergey Tikhonov http://haqu.net
- *  Released under the MIT License
- *
- */
+//
+//  Tiny Wings Remake
+//  http://github.com/haqu/tiny-wings
+//
+//  Created by Sergey Tikhonov http://haqu.net
+//  Released under the MIT License
+//
 
 #ifndef __GAME_CONFIG_H
 #define __GAME_CONFIG_H

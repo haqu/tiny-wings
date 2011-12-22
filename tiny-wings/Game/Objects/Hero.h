@@ -1,11 +1,10 @@
-/*
- *  Tiny Wings Remake
- *  http://github.com/haqu/tiny-wings
- *
- *  Created by Sergey Tikhonov http://haqu.net
- *  Released under the MIT License
- *
- */
+//
+//  Tiny Wings Remake
+//  http://github.com/haqu/tiny-wings
+//
+//  Created by Sergey Tikhonov http://haqu.net
+//  Released under the MIT License
+//
 
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
@@ -13,11 +12,11 @@
 
 #define kPerfectTakeOffVelocityY 2.0f
 
-@class GameLayer;
+@class Game;
 class HeroContactListener;
 
 @interface Hero : CCNode {
-	GameLayer *_game;
+	Game *_game;
 	CCSprite *_sprite;
 	b2Body *_body;
 	float _radius;
@@ -27,13 +26,13 @@ class HeroContactListener;
 	HeroContactListener *_contactListener;
 	int _nPerfectSlides;
 }
-@property (nonatomic, retain) GameLayer *game;
+@property (nonatomic, retain) Game *game;
 @property (nonatomic, retain) CCSprite *sprite;
 @property (readonly) BOOL awake;
 @property (nonatomic) BOOL diving;
 
-+ (id) heroWithGame:(GameLayer*)game;
-- (id) initWithGame:(GameLayer*)game;
++ (id) heroWithGame:(Game*)game;
+- (id) initWithGame:(Game*)game;
 
 - (void) reset;
 - (void) sleep;

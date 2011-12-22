@@ -1,13 +1,13 @@
 //
-//  AppDelegate.m
-//  tiny-wings-mac
+//  Tiny Wings Remake
+//  http://github.com/haqu/tiny-wings
 //
-//  Created by Sergey Tikhonov on 15.12.11.
-//  Copyright iPlayful Inc. 2011. All rights reserved.
+//  Created by Sergey Tikhonov http://haqu.net
+//  Released under the MIT License
 //
 
 #import "AppDelegate.h"
-#import "GameLayer.h"
+#import "Game.h"
 
 @implementation tiny_wings_macAppDelegate
 @synthesize window=window_, glView=glView_;
@@ -28,7 +28,7 @@
 	// Enable "moving" mouse event. Default no.
 	[window_ setAcceptsMouseMovedEvents:NO];
 	
-	[director runWithScene:[GameLayer scene]];
+	[director runWithScene:[Game scene]];
 }
 
 - (BOOL) applicationShouldTerminateAfterLastWindowClosed: (NSApplication *) theApplication

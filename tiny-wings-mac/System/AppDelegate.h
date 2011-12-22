@@ -1,9 +1,9 @@
 //
-//  AppDelegate.h
-//  tiny-wings-mac
+//  Tiny Wings Remake
+//  http://github.com/haqu/tiny-wings
 //
-//  Created by Sergey Tikhonov on 15.12.11.
-//  Copyright iPlayful Inc. 2011. All rights reserved.
+//  Created by Sergey Tikhonov http://haqu.net
+//  Released under the MIT License
 //
 
 #import "cocos2d.h"

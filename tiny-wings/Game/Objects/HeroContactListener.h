@@ -1,11 +1,10 @@
-/*
- *  Tiny Wings Remake
- *  http://github.com/haqu/tiny-wings
- *
- *  Created by Sergey Tikhonov http://haqu.net
- *  Released under the MIT License
- *
- */
+//
+//  Tiny Wings Remake
+//  http://github.com/haqu/tiny-wings
+//
+//  Created by Sergey Tikhonov http://haqu.net
+//  Released under the MIT License
+//
 
 #import "Box2D.h"
 

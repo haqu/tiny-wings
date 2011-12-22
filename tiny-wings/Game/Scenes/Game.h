@@ -1,11 +1,10 @@
-/*
- *  Tiny Wings Remake
- *  http://github.com/haqu/tiny-wings
- *
- *  Created by Sergey Tikhonov http://haqu.net
- *  Released under the MIT License
- *
- */
+//
+//  Tiny Wings Remake
+//  http://github.com/haqu/tiny-wings
+//
+//  Created by Sergey Tikhonov http://haqu.net
+//  Released under the MIT License
+//
 
 #import "cocos2d.h"
 #import "Box2D.h"
@@ -15,7 +14,7 @@
 @class Terrain;
 @class Hero;
 
-@interface GameLayer : CCLayer {
+@interface Game : CCLayer {
 	int _screenW;
 	int _screenH;
 	b2World *_world;

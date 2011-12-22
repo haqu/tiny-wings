@@ -1,14 +1,14 @@
-/*
- *  Tiny Wings Remake
- *  http://github.com/haqu/tiny-wings
- *
- *  Created by Sergey Tikhonov http://haqu.net
- *  Released under the MIT License
- *
- */
+//
+//  Tiny Wings Remake
+//  http://github.com/haqu/tiny-wings
+//
+//  Created by Sergey Tikhonov http://haqu.net
+//  Released under the MIT License
+//
 
 #import "Terrain.h"
 #import "Constants.h"
+#import "Box2DHelper.h"
 
 @interface Terrain()
 - (CCSprite*) generateStripesSprite;
@@ -262,7 +262,7 @@
 - (void) renderTopBorder {
 	
 	float borderAlpha = 0.5f;
-	float borderWidth = 2.0f*CC_CONTENT_SCALE_FACTOR();
+	float borderWidth = 2.0f;
 	
 	ccVertex2F vertices[2];
 	int nVertices = 0;
@@ -273,12 +273,12 @@
 	// adjust vertices for retina
 	for (int i=0; i<nVertices; i++) {
 		vertices[i].x *= CC_CONTENT_SCALE_FACTOR();
-//		vertices[i].y *= CC_CONTENT_SCALE_FACTOR();
+		vertices[i].y *= CC_CONTENT_SCALE_FACTOR();
 	}
 	
 	glDisableClientState(GL_COLOR_ARRAY);
 	
-	glLineWidth(borderWidth);
+	glLineWidth(borderWidth*CC_CONTENT_SCALE_FACTOR());
 	glColor4f(0, 0, 0, borderAlpha);
 	glVertexPointer(2, GL_FLOAT, 0, vertices);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -293,7 +293,8 @@
 	CCSprite *s = [CCSprite spriteWithFile:@"noise.png"];
 	[s setBlendFunc:(ccBlendFunc){GL_DST_COLOR, GL_ZERO}];
 	s.position = ccp(textureSize/2, textureSize/2);
-	s.scale = (float)textureSize/512.0f*CC_CONTENT_SCALE_FACTOR();
+	float imageSize = s.textureRect.size.width;
+	s.scale = (float)textureSize/imageSize*CC_CONTENT_SCALE_FACTOR();
 	glColor4f(1, 1, 1, 1);
 	[s visit];
 	[s visit]; // more contrast
@@ -370,13 +371,6 @@
 		
 		p0 = p1;
 	}
-
-//	// adjust vertices for retina
-//	for (int i=0; i<nBorderVertices; i++) {
-//		borderVertices[i].x *= CC_CONTENT_SCALE_FACTOR();
-//		borderVertices[i].y *= CC_CONTENT_SCALE_FACTOR();
-//	}
-	
 //	CCLOG(@"nBorderVertices = %d", nBorderVertices);
 }
 
@@ -390,10 +384,11 @@
 	b2Vec2 b2vertices[kMaxBorderVertices];
 	int nVertices = 0;
 	for (int i=0; i<nBorderVertices; i++) {
-		b2vertices[nVertices++].Set(borderVertices[i].x/PTM_RATIO,borderVertices[i].y/PTM_RATIO);
+		b2vertices[nVertices++].Set(borderVertices[i].x * [Box2DHelper metersPerPixel],
+									borderVertices[i].y * [Box2DHelper metersPerPixel]);
 	}
-	b2vertices[nVertices++].Set(borderVertices[nBorderVertices-1].x/PTM_RATIO,0);
-	b2vertices[nVertices++].Set(-screenW/4,0);
+	b2vertices[nVertices++].Set(borderVertices[nBorderVertices-1].x * [Box2DHelper metersPerPixel], 0);
+	b2vertices[nVertices++].Set(borderVertices[0].x * [Box2DHelper metersPerPixel], 0);
 	
 	b2LoopShape shape;
 	shape.Create(b2vertices, nVertices);
@@ -505,7 +500,10 @@
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
 	
+	glPushMatrix();
+	glScalef(CC_CONTENT_SCALE_FACTOR(), CC_CONTENT_SCALE_FACTOR(), 1.0f);
 	world->DrawDebugData();
+	glPopMatrix();
 	
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);

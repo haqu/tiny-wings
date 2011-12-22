@@ -1,17 +1,17 @@
-/*
- *  Tiny Wings Remake
- *  http://github.com/haqu/tiny-wings
- *
- *  Created by Sergey Tikhonov http://haqu.net
- *  Released under the MIT License
- *
- */
+//
+//  Tiny Wings Remake
+//  http://github.com/haqu/tiny-wings
+//
+//  Created by Sergey Tikhonov http://haqu.net
+//  Released under the MIT License
+//
 
-#import "GameLayer.h"
+#import "Game.h"
 #import "Hero.h"
 #import "HeroContactListener.h"
 #import "Box2D.h"
 #import "Constants.h"
+#import "Box2DHelper.h"
 
 @interface Hero()
 - (void) createBox2DBody;
@@ -24,11 +24,11 @@
 @synthesize awake = _awake;
 @synthesize diving = _diving;
 
-+ (id) heroWithGame:(GameLayer*)game {
++ (id) heroWithGame:(Game*)game {
 	return [[[self alloc] initWithGame:game] autorelease];
 }
 
-- (id) initWithGame:(GameLayer*)game {
+- (id) initWithGame:(Game*)game {
 	
 	if ((self = [super init])) {
 
@@ -61,37 +61,6 @@
 	[super dealloc];
 }
 
-- (void) createBox2DBody {
-
-	b2BodyDef bd;
-	bd.type = b2_dynamicBody;
-	bd.linearDamping = 0.05f;
-	bd.fixedRotation = true;
-
-	// start position
-	CGPoint p = ccp(0, _game.screenH/2+_radius);
-	p.x /= PTM_RATIO;
-	p.y /= PTM_RATIO;
-	
-	// adjust body position for retina
-	p.x *= CC_CONTENT_SCALE_FACTOR();
-	p.y *= CC_CONTENT_SCALE_FACTOR();
-	
-	bd.position.Set(p.x, p.y);
-	_body = _game.world->CreateBody(&bd);
-	
-	b2CircleShape shape;
-	shape.m_radius = _radius/PTM_RATIO*CC_CONTENT_SCALE_FACTOR();
-	
-	b2FixtureDef fd;
-	fd.shape = &shape;
-	fd.density = 1.0f;
-	fd.restitution = 0; // bounce
-	fd.friction = 0;
-	
-	_body->CreateFixture(&fd);
-}
-
 - (void) reset {
 	_flying = NO;
 	_diving = NO;
@@ -102,6 +71,32 @@
 	[self createBox2DBody];
 	[self updateNode];
 	[self sleep];
+}
+
+- (void) createBox2DBody {
+	
+	b2BodyDef bd;
+	bd.type = b2_dynamicBody;
+	bd.linearDamping = 0.05f;
+	bd.fixedRotation = true;
+	
+	// start position
+	CGPoint p = ccp(0, _game.screenH/2+_radius);
+	CCLOG(@"start position = %f, %f", p.x, p.y);
+
+	bd.position.Set(p.x * [Box2DHelper metersPerPoint], p.y * [Box2DHelper metersPerPoint]);
+	_body = _game.world->CreateBody(&bd);
+	
+	b2CircleShape shape;
+	shape.m_radius = _radius * [Box2DHelper metersPerPoint];
+	
+	b2FixtureDef fd;
+	fd.shape = &shape;
+	fd.density = 1.0f;
+	fd.restitution = 0; // bounce
+	fd.friction = 0;
+	
+	_body->CreateFixture(&fd);
 }
 
 - (void) sleep {
@@ -141,13 +136,10 @@
 }
 
 - (void) updateNode {
-	CGPoint p = ccp(_body->GetPosition().x, _body->GetPosition().y);
-	p.x *= PTM_RATIO;
-	p.y *= PTM_RATIO;
 	
-	// adjust position for retina
-	p.x /= CC_CONTENT_SCALE_FACTOR();
-	p.y /= CC_CONTENT_SCALE_FACTOR();
+	CGPoint p;
+	p.x = _body->GetPosition().x * [Box2DHelper pointsPerMeter];
+	p.y = _body->GetPosition().y * [Box2DHelper pointsPerMeter];
 	
 	// CCNode position and rotation
 	self.position = p;

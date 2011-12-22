@@ -1,9 +1,9 @@
 //
-//  main.m
-//  cocos2d-mac
+//  Tiny Wings Remake
+//  http://github.com/haqu/tiny-wings
 //
-//  Created by Ricardo Quesada on 8/17/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Created by Sergey Tikhonov http://haqu.net
+//  Released under the MIT License
 //
 
 #import <Cocoa/Cocoa.h>

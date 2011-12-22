@@ -1,16 +1,15 @@
-/*
- *  Tiny Wings Remake
- *  http://github.com/haqu/tiny-wings
- *
- *  Created by Sergey Tikhonov http://haqu.net
- *  Released under the MIT License
- *
- */
+//
+//  Tiny Wings Remake
+//  http://github.com/haqu/tiny-wings
+//
+//  Created by Sergey Tikhonov http://haqu.net
+//  Released under the MIT License
+//
 
 #import "cocos2d.h"
 #import "AppDelegate.h"
 #import "GameConfig.h"
-#import "GameLayer.h"
+#import "Game.h"
 #import "RootViewController.h"
 
 @implementation AppDelegate
@@ -114,7 +113,7 @@
 	[self removeStartupFlicker];
 	
 	// Run the intro Scene
-	[[CCDirector sharedDirector] runWithScene: [GameLayer scene]];
+	[[CCDirector sharedDirector] runWithScene: [Game scene]];
 }
 
 
