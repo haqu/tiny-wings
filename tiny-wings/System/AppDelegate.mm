@@ -101,6 +101,7 @@
 	// make the View Controller a child of the main window
 	[window addSubview: viewController.view];
 	
+	[window setRootViewController:viewController];
 	[window makeKeyAndVisible];
 	
 	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images

@@ -45,7 +45,7 @@
 		screenH = size.height;
 		
 #ifndef DRAW_BOX2D_WORLD
-		textureSize = 512;
+		textureSize = 1024;
 		self.stripes = [self generateStripesSprite];
 #endif
 		
@@ -99,7 +99,7 @@
 	const int maxStripes = 30;
 	
 	// random even number of stripes
-	int nStripes = arc4random()%(maxStripes-minStripes)+minStripes;
+	int nStripes = arc4random_uniform(maxStripes-minStripes)+minStripes;
 	if (nStripes%2) {
 		nStripes++;
 	}
@@ -112,7 +112,7 @@
 	float x1, x2, y1, y2, dx, dy;
 	ccColor4F c;
 	
-	if (arc4random()%2) {
+	if (arc4random_uniform(2)) {
 		
 		// diagonal stripes
 		
@@ -321,9 +321,9 @@
 	float maxHeight = screenH;
 	float minHeight = 20;
 	while (nHillKeyPoints < kMaxHillKeyPoints-1) {
-		dx = arc4random()%rangeDX+minDX;
+		dx = arc4random_uniform(rangeDX)+minDX;
 		x += dx;
-		dy = arc4random()%rangeDY+minDY;
+		dy = arc4random_uniform(rangeDY)+minDY;
 		ny = y + dy*sign;
 		if(ny > maxHeight) ny = maxHeight;
 		if(ny < minHeight) ny = minHeight;
@@ -480,9 +480,9 @@
 	const int minDelta = 150;
 	int r, g, b, min, max;
 	while (true) {
-		r = arc4random()%256;
-		g = arc4random()%256;
-		b = arc4random()%256;
+		r = arc4random_uniform(256);
+		g = arc4random_uniform(256);
+		b = arc4random_uniform(256);
 		min = MIN(MIN(r, g), b);
 		max = MAX(MAX(r, g), b);
 		if (max-min < minDelta) continue;

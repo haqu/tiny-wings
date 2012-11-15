@@ -39,7 +39,7 @@
 - (id) init {
 	
 	if ((self = [super init])) {
-		
+
 		CGSize screenSize = [[CCDirector sharedDirector] winSize];
 		_screenW = screenSize.width;
 		_screenH = screenSize.height;

@@ -129,6 +129,19 @@
 }
 #endif // GAME_AUTOROTATION == kGameAutorotationUIViewController
 
+#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 60000
+
+- (NSUInteger)supportedInterfaceOrientations {
+	return UIInterfaceOrientationMaskLandscape;
+}
+
+- (BOOL)shouldAutorotate {
+	return YES;
+}
+
+#endif
+#endif
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
