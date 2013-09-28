@@ -10,7 +10,7 @@
 #import "Box2D.h"
 
 #define kMaxHillKeyPoints 101
-#define kMaxHillVertices 1000
+#define kMaxHillVertices 2000
 #define kMaxBorderVertices 5000
 #define kHillSegmentWidth 15
 
