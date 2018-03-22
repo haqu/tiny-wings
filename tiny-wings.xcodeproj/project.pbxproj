@@ -1444,7 +1444,7 @@
 				INFOPLIST_FILE = "tiny-wings/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = "-lz";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.iplayful.tiny-wings";
+				PRODUCT_BUNDLE_IDENTIFIER = com.appleeducate.SkiJump;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "tiny-wings/libs";
 				WRAPPER_EXTENSION = app;
@@ -1465,7 +1465,7 @@
 				INFOPLIST_FILE = "tiny-wings/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = "-lz";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.iplayful.tiny-wings";
+				PRODUCT_BUNDLE_IDENTIFIER = com.appleeducate.SkiJump;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "tiny-wings/libs";
 				VALIDATE_PRODUCT = YES;
