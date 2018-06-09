@@ -2,7 +2,7 @@
 
 This is an attempt to implement key features of the [Tiny Wings](http://itunes.apple.com/us/app/tiny-wings/id417817520?mt=8) game.
 
-![Tiny Wings WIP Screenshot](http://github.com/haqu/tiny-wings/raw/master/screenshot.png)
+![Tiny Wings WIP Screenshot](https://raw.githubusercontent.com/haqu/tiny-wings/master/screenshot.png)
 
 Powered by [Cocos2D](http://www.cocos2d-iphone.org/) framework.
 
