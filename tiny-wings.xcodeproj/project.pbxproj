@@ -181,6 +181,7 @@
 		4DFD300A139CCCA5001E1480 /* ZFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DFD3009139CCCA5001E1480 /* ZFont.m */; };
 		4DFD300F139CCCA6001E1480 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DFD300E139CCCA6001E1480 /* main.m */; };
 		4DFE49C7139F6A7900973A5D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4DFE49C6139F6A7900973A5D /* README.md */; };
+		F7A9418A2062881A000AFC72 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7A941892062881A000AFC72 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -528,6 +529,7 @@
 		4DFD300D139CCCA6001E1480 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		4DFD300E139CCCA6001E1480 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4DFE49C6139F6A7900973A5D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = SOURCE_ROOT; };
+		F7A941892062881A000AFC72 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -565,6 +567,7 @@
 		4D6FFC1D149A3101009512B8 /* System */ = {
 			isa = PBXGroup;
 			children = (
+				F7A941892062881A000AFC72 /* Launch Screen.storyboard */,
 				4D6FFC1E149A3101009512B8 /* AppDelegate.h */,
 				4D6FFC1F149A3101009512B8 /* AppDelegate.mm */,
 				4D6FFC23149A3101009512B8 /* RootViewController.h */,
@@ -1167,6 +1170,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0450;
+				TargetAttributes = {
+					4DFD2EA9139CCCA0001E1480 = {
+						DevelopmentTeam = 9FK3425VTA;
+					};
+				};
 			};
 			buildConfigurationList = 4DFD2EA4139CCCA0001E1480 /* Build configuration list for PBXProject "tiny-wings" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1196,6 +1204,7 @@
 				4DFD2EC7139CCCA0001E1480 /* Icon-Small-50.png in Resources */,
 				4DFD2EC9139CCCA0001E1480 /* Icon-Small.png in Resources */,
 				4DFD2ECB139CCCA0001E1480 /* Icon-Small@2x.png in Resources */,
+				F7A9418A2062881A000AFC72 /* Launch Screen.storyboard in Resources */,
 				4DFD2ECD139CCCA0001E1480 /* Icon.png in Resources */,
 				4DFD2ECF139CCCA0001E1480 /* Icon@2x.png in Resources */,
 				4DFD2ED2139CCCA1001E1480 /* iTunesArtwork in Resources */,
@@ -1424,15 +1433,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 9FK3425VTA;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "tiny-wings/Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = "tiny-wings/Resources/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = "-lz";
+				PRODUCT_BUNDLE_IDENTIFIER = com.appleeducate.SkiJump;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "tiny-wings/libs";
 				WRAPPER_EXTENSION = app;
@@ -1443,14 +1455,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = 9FK3425VTA;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "tiny-wings/Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = "tiny-wings/Resources/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = "-lz";
+				PRODUCT_BUNDLE_IDENTIFIER = com.appleeducate.SkiJump;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "tiny-wings/libs";
 				VALIDATE_PRODUCT = YES;
