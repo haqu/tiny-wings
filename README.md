@@ -4,7 +4,7 @@ This is an attempt to implement key features of the [Tiny Wings](http://itunes.a
 
 ![Tiny Wings WIP Screenshot](https://raw.githubusercontent.com/haqu/tiny-wings/master/screenshot.png)
 
-Powered by [Cocos2D](http://www.cocos2d-iphone.org/) framework.
+Powered by [Cocos2D](https://www.cocos.com/en/cocos2dx) framework.
 
 The code is released under the [MIT License](http://opensource.org/licenses/mit-license.php).
 
